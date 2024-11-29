@@ -28,6 +28,9 @@ def user_create(request):
 
 
 def user_login(request):
+
+    user_role = None
+
     if request.method == 'POST':
         form = CustomAuthenticationForm(request, data=request.POST)
 
@@ -43,16 +46,20 @@ def user_login(request):
 
             if user is not None:
                 login(request, user)
+                user_role = user.role
                 return redirect('/')
     
     else:
         form = CustomAuthenticationForm()
     
     context = {
-        'form':form
+        'form':form,
+        'user_role':user_role
+
     }
 
     return render(request, 'login.html', context)
 
-def user_logout(user,request):
-    logout(request,user)
+def users_logout(request):
+    logout(request)
+    return redirect('login')
