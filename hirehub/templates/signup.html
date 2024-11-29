@@ -9,7 +9,26 @@
     <h2>Register</h2>
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    <div>
+        <label for="id_username">UserName:</label>
+    <input type="username" name="username" maxlength="254" required id="id_username">
+    </div>
+    
+    <div>
+        <label for="id_username">Email:</label>
+    <input type="email" name="email" maxlength="254" required id="id_username">
+    </div>
+
+      <div>
+        <label for="id_password">Password:</label>
+    <input type="password" name="password1" required id="id_password">
+    </div>
+
+    <div>
+        <label for="id_password">Confirm Password:</label>
+    <input type="password" name="password2" required id="id_password">
+    </div>
+
     <button type="submit">Signup</button>
     <p>Don't have an account? <a href="{% url 'login' %}">Register here</a></p>
 </form>

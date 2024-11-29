@@ -6,8 +6,8 @@ import re
 class CustomRegistrationForm(UserCreationForm):
     username = forms.CharField(max_length=50, required=True)
     email = forms.EmailField()
-    password1 = forms.CharField(max_length=12, required=True)
-    password2 = forms.CharField(max_length=12, required=True)
+    password1 = forms.CharField(max_length=12, required=True, widget=forms.PasswordInput)
+    password2 = forms.CharField(max_length=12, required=True, widget=forms.PasswordInput)
     role = forms.ChoiceField(choices=CustomUser.choices, required=True)
 
     class Meta:
@@ -48,6 +48,11 @@ class CustomRegistrationForm(UserCreationForm):
     
     def clean_email(self):
         email = self.cleaned_data['email']
+
+        email_regex = r"(^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$)"
+        if not re.match(email_regex, email):
+            raise forms.ValidationError("Enter a valid email address.")
+        
         if CustomUser.objects.filter(email=email).exists():
             raise forms.ValidationError("Email already Exists.")
         
@@ -62,8 +67,8 @@ class CustomAuthenticationForm(AuthenticationForm):
         model = CustomUser
         fields = ['username', 'password']
 
-    def clean_username(self):
-        email = self.cleaned_data.get('email')
+    def clean_email(self):
+        email = self.cleaned_data.get('username')
 
         if not email:
             raise forms.ValidationError("Email is Required.")
@@ -85,5 +90,7 @@ class CustomAuthenticationForm(AuthenticationForm):
 
         if password is None:
             raise forms.ValidationError("Password is Required.")
+        
+        return password
 
 

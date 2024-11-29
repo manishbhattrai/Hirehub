@@ -9,7 +9,17 @@
     <h2>Login</h2>
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    <div>
+        <label for="id_username">Email:</label>
+    <input type="email" name="username" maxlength="254" required id="id_username">
+    </div>
+    
+      <div>
+        <label for="id_password">Password:</label>
+    <input type="password" name="password" required id="id_password">
+    </div>
+
+    
     <button type="submit">Login</button>
 </form>
 
