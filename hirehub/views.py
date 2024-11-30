@@ -44,6 +44,8 @@ def user_login(request):
 
             user = authenticate(request, username=email, password=password)
 
+            ##print(user)
+
             if user is not None:
                 login(request, user)
                 user_role = user.role

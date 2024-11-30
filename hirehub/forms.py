@@ -34,8 +34,8 @@ class CustomRegistrationForm(UserCreationForm):
         if password1 != password2:
             raise forms.ValidationError("Password didn't match.")
         
-        if len(password1)<=6:
-            raise forms.ValidationError("Password must be more than 6 Characters.")
+        if len(password1)<8:
+            raise forms.ValidationError("Password must be more than 8 Characters.")
         
         return password2
     
