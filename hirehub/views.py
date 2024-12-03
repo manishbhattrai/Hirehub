@@ -1,7 +1,9 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from .forms import CustomRegistrationForm,CustomAuthenticationForm
+from .forms import CustomRegistrationForm,CustomAuthenticationForm,SellerProfileForm,BuyerProfileForm
 from django.contrib.auth import login,authenticate,logout
+from .models import UserProfile
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -49,7 +51,7 @@ def user_login(request):
             if user is not None:
                 login(request, user)
                 user_role = user.role
-                return redirect('/')
+                return redirect('profile_setup')
     
     else:
         form = CustomAuthenticationForm()
@@ -62,6 +64,51 @@ def user_login(request):
 
     return render(request, 'login.html', context)
 
+
+
 def users_logout(request):
     logout(request)
     return redirect('login')
+
+
+
+@login_required(login_url='login')
+def profile_setup(request):
+
+    if request.user.role != "seller":
+        return redirect('/')
+    
+
+    user_profile,created = UserProfile.objects.get_or_create(user = request.user)
+    if user_profile.has_profile:
+        return redirect('/')
+    
+    if request.method == 'POST':
+        if request.user.role == "seller":
+            form = SellerProfileForm(request.POST, instance=user_profile)
+        else:
+            form = BuyerProfileForm(request.POST, instance=user_profile)
+        if form.is_valid():
+            form.save()
+            user_profile.has_profile = True
+            user_profile.save()
+            return redirect('/')
+    else:
+        if request.user.role == "seller":
+            form = SellerProfileForm(instance=user_profile)
+        else:
+            form = BuyerProfileForm(instance=user_profile)
+    
+    return render(request,'user_profile_form.html',{'form':form})
+
+def user_profile(request):
+    profile = UserProfile.objects.filter(user = request.user)
+
+    context = {
+        'profile':profile
+    }
+    return render(request,'user_profile',context)
+
+    
+
+
