@@ -1,4 +1,4 @@
-from .models import CustomUser
+from .models import CustomUser,SellerProfile
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 import re
@@ -92,5 +92,13 @@ class CustomAuthenticationForm(AuthenticationForm):
             raise forms.ValidationError("Password is Required.")
         
         return password
+
+class SellerProfileForm(forms.ModelForm):
+    class Meta:
+        model = SellerProfile
+        fields = ['firstname','lastname','age','address','email','description','facebook','number','skill']
+    
+    
+            
 
 

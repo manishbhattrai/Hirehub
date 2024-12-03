@@ -66,6 +66,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -90,7 +91,7 @@ DATABASES = {
     }
 }
 
-AUTH_USER_MODEL = 'hirehub.CustomUser'
+AUTH_USER_MODEL='hirehub.CustomUser'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
