@@ -75,7 +75,7 @@ def users_logout(request):
 @login_required(login_url='login')
 def profile_setup(request):
 
-    if request.user.role != "seller":
+    if request.user.role not in ["seller","buyer"]:
         return redirect('/')
     
 

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Set Up Your Profile</h2>
+        
+        <!-- Display a message if there are form errors -->
+        {% if form.errors %}
+          <div class="alert alert-danger">
+            <ul>
+              {% for field in form %}
+                {% for error in field.errors %}
+                  <li>{{ error }}</li>
+                {% endfor %}
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+        
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          
+          <!-- Display instructions based on user role 
+          {% if user.role == 'seller' %}
+            <p>As a seller, please complete your profile to start selling products.</p>
+          {% elif user.role == 'buyer' %}
+            <p>As a buyer, please complete your profile to start purchasing products.</p>
+          {% endif %} -->
+    
+          <!-- Render the form fields conditionally based on role -->
+          {% if user.role == 'seller' %}
+            <div class="form-group">
+              <label for="id_firstname">First Name</label>
+              {{ form.firstname }}
+            </div>
+    
+            <div class="form-group">
+              <label for="id_lastname">Last Name</label>
+              {{ form.lastname }}
+            </div>
+    
+            <div class="form-group">
+              <label for="id_date_of_birth">Date of Birth</label>
+              {{ form.date_of_birth }}
+            </div>
+    
+            <div class="form-group">
+              <label for="id_address">Address</label>
+              {{ form.address }}
+            </div>
+    
+            <div class="form-group">
+              <label for="id_email">Email</label>
+              {{ form.email }}
+            </div>
+    
+            <div class="form-group">
+              <label for="id_number">Phone Number</label>
+              {{ form.number }}
+            </div>
+    
+            <div class="form-group">
+              <label for="id_description">Description</label>
+              {{ form.description }}
+            </div>
+    
+            <div class="form-group">
+              <label for="id_facebook">Facebook URL</label>
+              {{ form.facebook }}
+            </div>
+            
+            <div class="form-group">
+              <label for="id_skill">Skills</label>
+              {{ form.skill }}
+            </div>
+          
+          {% elif user.role == 'buyer' %}
+            <div class="form-group">
+              <label for="id_firstname">First Name</label>
+              {{ form.firstname }}
+            </div>
+    
+            <div class="form-group">
+              <label for="id_lastname">Last Name</label>
+              {{ form.lastname }}
+            </div>
+    
+            <div class="form-group">
+              <label for="id_address">Address</label>
+              {{ form.address }}
+            </div>
+    
+          {% endif %}
+    
+          <!-- Submit button -->
+          <button type="submit" class="btn btn-primary">Save Profile</button>
+        </form>
+      </div>
+</body>
+</html>
