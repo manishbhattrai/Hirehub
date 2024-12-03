@@ -1,4 +1,4 @@
-from .models import CustomUser,SellerProfile
+from .models import CustomUser,UserProfile
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 import re
@@ -95,8 +95,14 @@ class CustomAuthenticationForm(AuthenticationForm):
 
 class SellerProfileForm(forms.ModelForm):
     class Meta:
-        model = SellerProfile
-        fields = ['firstname','lastname','age','address','email','description','facebook','number','skill']
+        model = UserProfile
+        fields = ['firstname','lastname','date_of_birth','address','email','description','facebook','number','skill']
+
+
+class BuyerProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['firstname','lastname','address']
     
     
             
