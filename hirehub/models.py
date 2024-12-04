@@ -41,10 +41,15 @@ class UserProfile(models.Model):
     lastname = models.CharField(max_length=50, null=False)
     date_of_birth = models.DateField(null=True,blank=True)
     address = models.CharField(max_length=60, null=False)
-    email = models.EmailField(unique=True)
+    email = models.EmailField(unique=True,null=False)
     description = models.TextField(max_length=200, null=True)
     facebook = models.URLField(null=True,blank=True)
-    number = models.CharField(max_length=12,null=False, validators=[phone_number_regex])
+    number = models.CharField(
+        max_length=14,null=False, 
+        validators=[phone_number_regex],
+        help_text="Enter phone number in the format: +9779XXXXXXXX or 9XXXXXXXX.")
+    
+
     skill = models.TextField(max_length=200, null=False)
     has_profile = models.BooleanField(default=False)
 
