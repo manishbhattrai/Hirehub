@@ -96,7 +96,7 @@ class CustomAuthenticationForm(AuthenticationForm):
 class SellerProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['firstname','lastname','date_of_birth','address','email','description','facebook','number','skill']
+        fields = ['image','firstname','lastname','date_of_birth','gender','address','email','description','facebook','number','skill']
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
@@ -115,7 +115,7 @@ class SellerProfileForm(forms.ModelForm):
 class BuyerProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
-        fields = ['firstname','lastname','address']
+        fields = ['image','firstname','lastname','address']
     
             
 

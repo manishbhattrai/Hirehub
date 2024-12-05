@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth import get_user_model
 from django.core.validators import RegexValidator
+from django.core.exceptions import ValidationError
+import os
 
 
 
@@ -36,10 +38,30 @@ class UserProfile(models.Model):
         message="Phone number must be in the format: +9779XXXXXXXX or 9XXXXXXXX."
     )
 
+    def validate_image(image):
+        ext = os.path.splitext(image.name)[1].lower()
+
+        if ext not in ['.jpeg','.jpg']:
+            raise ValidationError("Photo Should be in .jpg or .jpeg format.")
+    
+    choices = [
+        ('M','Male'),
+        ('F','Female')
+    ]
+            
+
+
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    image = models.ImageField(
+        null=True,blank=True,
+        upload_to='media/', 
+        validators=[validate_image]
+        )
+    
     firstname = models.CharField(max_length=50, null=False)
     lastname = models.CharField(max_length=50, null=False)
     date_of_birth = models.DateField(null=True,blank=True)
+    gender = models.CharField(choices=choices, max_length=5, null=False, blank=False, default='M')
     address = models.CharField(max_length=60, null=False)
     email = models.EmailField(unique=True,null=False)
     description = models.TextField(max_length=200, null=True)

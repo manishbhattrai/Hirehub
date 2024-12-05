@@ -51,7 +51,7 @@ def user_login(request):
             if user is not None:
                 login(request, user)
                 user_role = user.role
-                print(user_role)
+                ##print(user_role)
                 return redirect('profile_setup')
                 
     
