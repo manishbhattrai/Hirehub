@@ -2,340 +2,398 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Set Up Your Profile</title>
-    <style>
-        /* General Reset */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
 
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f7fc;
-            color: #333;
-            padding: 40px 0;
-        }
-
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: #fff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h2 {
-            font-size: 28px;
-            margin-bottom: 20px;
-            color: #2c3e50;
-            text-align: center;
-        }
-
-        p {
-            font-size: 16px;
-            color: #555;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        label {
-            display: block;
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #333;
-        }
-
-        input[type="text"], input[type="email"], input[type="date"], input[type="tel"], textarea {
-            width: 100%;
-            padding: 12px;
-            font-size: 14px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            background-color: #fafafa;
-            margin-top: 5px;
-            transition: all 0.3s ease;
-        }
-
-        input[type="text"]:focus, input[type="email"]:focus, input[type="date"]:focus, input[type="tel"]:focus, textarea:focus {
-            border-color: #3498db;
-            background-color: #fff;
-        }
-
-        textarea {
-            height: 150px;
-        }
-
-        .alert {
-            background-color: #f8d7da;
-            color: #721c24;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-        }
-
-        .alert ul {
-            list-style: none;
-            padding-left: 0;
-        }
-
-        .alert li {
-            margin-bottom: 5px;
-        }
-
-        .btn {
-            background-color: #3498db;
-            color: white;
-            padding: 12px 20px;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-        }
-
-        .btn:hover {
-            background-color: #2980b9;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-            }
-
-            h2 {
-                font-size: 24px;
-            }
-
-            .form-group label {
-                font-size: 12px;
-            }
-
-            .btn {
-                width: 100%;
-            }
-        }
-
-        .error {
-            color: #e74c3c;
-            font-size: 12px;
-            margin-top: 5px;
-        }
-    </style>
+    <!-- Bootstrap core CSS -->
+    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome-->
+    <link href="/static/vendor/fontawesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Material Design Icons -->
+    <link href="/static/vendor/icons/css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css">
+    <!-- Slick -->
+    <link href="/static/vendor/slick-master/slick/slick.css" rel="stylesheet" type="text/css">
+    <!-- Lightgallery -->
+    <link href="/static/vendor/lightgallery-master/dist/css/lightgallery.min.css" rel="stylesheet">
+    <!-- Select2 CSS -->
+    <link href="/static/vendor/select2/css/select2-bootstrap.css" />
+    <link href="/static/vendor/select2/css/select2.min.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="/static/css/style.css" rel="stylesheet">  
 </head>
 <body>
-    <div class="container">
-        <h2>Set Up Your Profile</h2>
+  <div class="container">
+    <h2>Set Up Your Profile</h2>
 
-        <form method="POST" enctype="multipart/form-data">
-          {% csrf_token %}
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
 
-          <!-- Display instructions based on user role -->
-          {% if user.role == 'seller' %}
-            <p>As a seller, please complete your profile to start selling products.</p>
-          {% elif user.role == 'buyer' %}
-            <p>As a buyer, please complete your profile to start purchasing products.</p>
-          {% endif %}
+        <!-- Display instructions based on user role -->
+        {% if user.role == 'seller' %}
+            <p>As a Freelancer, please complete your profile to start selling your service.</p>
+        {% elif user.role == 'buyer' %}
+            <p>As a buyer, please complete your profile to start hiring people.</p>
+        {% endif %}
 
-          <!-- Render the form fields conditionally based on role -->
-          {% if user.role == 'seller' %}
+        <!-- Render the form fields conditionally based on role -->
+        {% if user.role == 'seller' %}
+        
+        <div class="shadow-sm rounded bg-white mb-3">
+            <div class="box-title border-bottom p-3">
+                <h6 class="m-0">Add Basic Info</h6>
+                <p class="mb-0 mt-0 small">Fill this form wisely.</p>
+            </div>
+            <div class="box-body p-3">
+                <div class="js-validate" novalidate="novalidate">
+                    <div class="row">
+
+                        <!-- Input for Photo -->
+                        <div class="col-sm-6 mb-2">
+                            <div class="js-form-message">
+                                <label for="id_image" class="form-label">Photo</label>
+                                <div class="form-group">
+                                    <input type="file" name="image" id="id_image" accept="image/jpeg, image/jpg" class="form-control" data-error-class="u-has-error" data-success-class="u-has-success">
+                                    {% if form.image.errors %}
+                                        <div class="text-danger">
+                                            {% for error in form.image.errors %}
+                                                <p>{{ error }}</p>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Input for First Name -->
+                        <div class="col-sm-6 mb-2">
+                            <div class="js-form-message">
+                                <label for="id_firstname" class="form-label">FirstName <span class="text-danger">*</span></label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="firstname" placeholder="Enter your firstname" required data-msg="Please enter your name." aria-describedby="nameLabel">
+                                    {% if form.firstname.errors %}
+                                        <div class="text-danger">
+                                            {% for error in form.firstname.errors %}
+                                                <p>{{ error }}</p>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                                  <!-- Input for Middle Name -->
+                        <div class="col-sm-6 mb-2">
+                          <div class="js-form-message">
+                              <label for="id_firstname" class="form-label">MiddleName</label>
+                              <div class="form-group">
+                                  <input type="text" class="form-control" name="middlename" placeholder="Enter your Middlename"  data-msg="Please enter your middlename." aria-describedby="nameLabel">
+                                  {% if form.middlename.errors %}
+                                      <div class="text-danger">
+                                          {% for error in form.middlename.errors %}
+                                              <p>{{ error }}</p>
+                                          {% endfor %}
+                                      </div>
+                                  {% endif %}
+                              </div>
+                          </div>
+                       </div>
 
 
-          <div class="form-group">
-            <label for="id_image">Profile Photo</label>
-            {{ form.image }}
-            {% if form.image.errors %}
-              <div class="error">
-                {% for error in form.image.errors %}
-                  <p>{{ error }}</p>
-                {% endfor %}
+                        <!-- Input for Last Name -->
+                        <div class="col-sm-6 mb-2">
+                            <div class="js-form-message">
+                                <label for="id_lastname" class="form-label">LastName <span class="text-danger">*</span></label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="lastname" placeholder="Enter your lastname" required data-msg="Please enter your username." aria-describedby="usernameLabel">
+                                    {% if form.lastname.errors %}
+                                        <div class="text-danger">
+                                            {% for error in form.lastname.errors %}
+                                                <p>{{ error }}</p>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Birth date input -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <div class="js-form-message">
+                                <label for="id_date_of_birth" class="form-label">Birth Date</label>
+                                <div class="form-group">
+                                    <input type="date" name="date_of_birth" id="id_date_of_birth" class="form-control">
+                                    {% if form.date_of_birth.errors %}
+                                        <div class="text-danger">
+                                            {% for error in form.date_of_birth.errors %}
+                                                <p>{{ error }}</p>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Gender input -->
+                        <div class="col-md-2 mb-2">
+                            <div class="js-form-message">
+                                <label for="id_gender" class="form-label">Gender <span class="text-danger">*</span></label>
+                                <div class="form-group">
+                                    <select class="form-control custom-select" name="gender" id="id_gender" required>
+                                        <option value="" selected>Select Your Gender</option>
+                                        <option value="M">Male</option>
+                                        <option value="F">Female</option>
+                                    </select>
+                                    {% if form.gender.errors %}
+                                        <div class="text-danger">
+                                            {% for error in form.gender.errors %}
+                                                <p>{{ error }}</p>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Email and Location inputs -->
+                    <div class="row">
+                        <div class="col-sm-6 mb-2">
+                            <div class="js-form-message">
+                                <label for="id_email" class="form-label">Email address <span class="text-danger">*</span></label>
+                                <div class="form-group">
+                                    <input type="email" class="form-control" name="email" id="id_email" placeholder="Enter your email address" required>
+                                    {% if form.email.errors %}
+                                        <div class="text-danger">
+                                            {% for error in form.email.errors %}
+                                                <p>{{ error }}</p>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 mb-2">
+                            <div class="js-form-message">
+                                <label for="id_address" class="form-label">Location <span class="text-danger">*</span></label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="address" id="id_address" placeholder="Enter your location" required>
+                                    {% if form.address.errors %}
+                                        <div class="text-danger">
+                                            {% for error in form.address.errors %}
+                                                <p>{{ error }}</p>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- About Yourself and Facebook Link inputs -->
+                    <div class="row">
+                        <div class="col-sm-6 mb-2">
+                            <div class="js-form-message">
+                                <label for="id_description" class="form-label">About Yourself</label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="description" id="id_description" placeholder="Enter your bio">
+                                    {% if form.description.errors %}
+                                        <div class="text-danger">
+                                            {% for error in form.description.errors %}
+                                                <p>{{ error }}</p>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 mb-2">
+                            <div class="js-form-message">
+                                <label for="id_facebook" class="form-label">Your Facebook Link</label>
+                                <div class="form-group">
+                                    <input class="form-control" type="url" name="facebook" id="id_facebook" placeholder="Enter your Facebook">
+                                    {% if form.facebook.errors %}
+                                        <div class="text-danger">
+                                            {% for error in form.facebook.errors %}
+                                                <p>{{ error }}</p>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phone Number and Skills inputs -->
+                    <div class="row">
+                        <div class="col-sm-6 mb-2">
+                            <div class="js-form-message">
+                                <label for="id_phone" class="form-label">Phone number</label>
+                                <div class="form-group">
+                                    <input class="form-control" type="tel" name="number" id="id_phone" placeholder="Enter your phone number" required>
+                                    {% if form.number.errors %}
+                                        <div class="text-danger">
+                                            {% for error in form.number.errors %}
+                                                <p>{{ error }}</p>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 mb-2">
+                            <div class="js-form-message">
+                                <label for="id_skill" class="form-label">Your Skills <span class="text-danger">*</span></label>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="skill" id="id_skill" placeholder="Enter your skills" required>
+                                    {% if form.skill.errors %}
+                                        <div class="text-danger">
+                                            {% for error in form.skill.errors %}
+                                                <p>{{ error }}</p>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit button -->
+                    <button type="submit" class="btn btn-success">Save Profile</button>
+                </div>
+            </div>
+        </div>
+
+        {% elif user.role == 'buyer' %}
+      
+            <!-- Input -->
+            <div class="col-sm-6 mb-2">
+              <div class="js-form-message">
+                 <label id="nameLabel" class="form-label">
+                 Photo
+                 </label>
+                 <div class="form-group">
+                    <input type="file" name="image" id="id_image" accept="image/jpeg, image/jpg" class="form-control"  data-error-class="u-has-error" data-success-class="u-has-success">
+                    {% if form.image.errors %}
+                 <div class="text-danger">
+                     {% for error in form.image.errors %}
+                         <p>{{ error }}</p>
+                     {% endfor %}
+                 </div>
+             {% endif %}
+                 </div>
               </div>
-            {% endif %}
-          </div>
+           </div>
+           <!-- End Input -->
 
-            <div class="form-group">
-              <label for="id_firstname">First Name</label>
-              {{ form.firstname }}
-              {% if form.firstname.errors %}
-                <div class="error">
-                  {% for error in form.firstname.errors %}
-                    <p>{{ error }}</p>
-                  {% endfor %}
-                </div>
-              {% endif %}
-            </div>
-
-            <div class="form-group">
-              <label for="id_lastname">Last Name</label>
-              {{ form.lastname }}
-              {% if form.lastname.errors %}
-                <div class="error">
-                  {% for error in form.lastname.errors %}
-                    <p>{{ error }}</p>
-                  {% endfor %}
-                </div>
-              {% endif %}
-            </div>
-
-            <div class="form-group">
-              <label for="id_date_of_birth">Date of Birth</label>
-              {{ form.date_of_birth }}
-              {% if form.date_of_birth.errors %}
-                <div class="error">
-                  {% for error in form.date_of_birth.errors %}
-                    <p>{{ error }}</p>
-                  {% endfor %}
-                </div>
-              {% endif %}
-            </div>
-
-            <div class="form-group">
-              <label for="id_date_of_birth">Gender</label>
-              {{ form.gender }}
-              {% if form.gender.errors %}
-                <div class="error">
-                  {% for error in form.gender.errors %}
-                    <p>{{ error }}</p>
-                  {% endfor %}
-                </div>
-              {% endif %}
-            </div>
-
-            <div class="form-group">
-              <label for="id_address">Address</label>
-              {{ form.address }}
-              {% if form.address.errors %}
-                <div class="error">
-                  {% for error in form.address.errors %}
-                    <p>{{ error }}</p>
-                  {% endfor %}
-                </div>
-              {% endif %}
-            </div>
-
-            <div class="form-group">
-              <label for="id_email">Email</label>
-              {{ form.email }}
-              {% if form.email.errors %}
-                <div class="error">
-                  {% for error in form.email.errors %}
-                    <p>{{ error }}</p>
-                  {% endfor %}
-                </div>
-              {% endif %}
-            </div>
-
-            <div class="form-group">
-              <label for="id_number">Phone Number</label>
-              {{ form.number }}
-              {% if form.number.errors %}
-                <div class="error">
-                  {% for error in form.number.errors %}
-                    <p>{{ error }}</p>
-                  {% endfor %}
-                </div>
-              {% endif %}
-            </div>
-
-            <div class="form-group">
-              <label for="id_description">Description</label>
-              {{ form.description }}
-              {% if form.description.errors %}
-                <div class="error">
-                  {% for error in form.description.errors %}
-                    <p>{{ error }}</p>
-                  {% endfor %}
-                </div>
-              {% endif %}
-            </div>
-
-            <div class="form-group">
-              <label for="id_facebook">Facebook URL</label>
-              {{ form.facebook }}
-              {% if form.facebook.errors %}
-                <div class="error">
-                  {% for error in form.facebook.errors %}
-                    <p>{{ error }}</p>
-                  {% endfor %}
-                </div>
-              {% endif %}
-            </div>
-
-            <div class="form-group">
-              <label for="id_skill">Skills</label>
-              {{ form.skill }}
-              {% if form.skill.errors %}
-                <div class="error">
-                  {% for error in form.skill.errors %}
-                    <p>{{ error }}</p>
-                  {% endfor %}
-                </div>
-              {% endif %}
-            </div>
-
-          {% elif user.role == 'buyer' %}
-
-          <div class="form-group">
-            <label for="id_image">Profile Photo</label>
-            {{ form.image }}
-            {% if form.image.errors %}
-              <div class="error">
-                {% for error in form.image.errors %}
-                  <p>{{ error }}</p>
-                {% endfor %}
+            <!-- Input -->
+            <div class="col-sm-6 mb-2">
+              <div class="js-form-message">
+                 <label id="nameLabel" class="form-label">
+                 FirstName
+                 <span class="text-danger">*</span>
+                 </label>
+                 <div class="form-group">
+                    <input type="text" class="form-control" name="firstname" placeholder="Enter your firstname" aria-label="Enter your name" required="" aria-describedby="nameLabel" data-msg="Please enter your name." data-error-class="u-has-error" data-success-class="u-has-success">
+                    {% if form.firstname.errors %}
+                 <div class="text-danger">
+                     {% for error in form.firstname.errors %}
+                         <p>{{ error }}</p>
+                     {% endfor %}
+                 </div>
+                  {% endif %}
+                 </div>
               </div>
-            {% endif %}
-          </div>
-          
-            <div class="form-group">
-              <label for="id_firstname">First Name</label>
-              {{ form.firstname }}
-              {% if form.firstname.errors %}
-                <div class="error">
-                  {% for error in form.firstname.errors %}
-                    <p>{{ error }}</p>
-                  {% endfor %}
-                </div>
-              {% endif %}
-            </div>
+           </div>
+           <!-- End Input -->
 
-            <div class="form-group">
-              <label for="id_lastname">Last Name</label>
-              {{ form.lastname }}
-              {% if form.lastname.errors %}
-                <div class="error">
-                  {% for error in form.lastname.errors %}
-                    <p>{{ error }}</p>
-                  {% endfor %}
-                </div>
-              {% endif %}
+             <!-- Input -->
+           <div class="col-sm-6 mb-2">
+            <div class="js-form-message">
+               <label id="usernameLabel" class="form-label">
+               MiddleName
+               </label>
+               <div class="form-group">
+                  <input type="text" class="form-control" name="middlename"  placeholder="Enter your lastname" aria-label="Enter your username" required="" aria-describedby="usernameLabel" data-msg="Please enter your username." data-error-class="u-has-error" data-success-class="u-has-success">
+                  {% if form.middlename.errors %}
+               <div class="text-danger">
+                   {% for error in form.middlename.errors %}
+                       <p>{{ error }}</p>
+                   {% endfor %}
+               </div>
+                  {% endif %}
+               </div>
             </div>
+         </div>
+         <!-- End Input -->
+            
+            <!-- Input -->
+           <div class="col-sm-6 mb-2">
+            <div class="js-form-message">
+               <label id="usernameLabel" class="form-label">
+               LastName
+               <span class="text-danger">*</span>
+               </label>
+               <div class="form-group">
+                  <input type="text" class="form-control" name="lastname"  placeholder="Enter your lastname" aria-label="Enter your username" required="" aria-describedby="usernameLabel" data-msg="Please enter your username." data-error-class="u-has-error" data-success-class="u-has-success">
+                  {% if form.lastname.errors %}
+               <div class="text-danger">
+                   {% for error in form.lastname.errors %}
+                       <p>{{ error }}</p>
+                   {% endfor %}
+               </div>
+                  {% endif %}
+               </div>
+            </div>
+         </div>
+         <!-- End Input -->
 
-            <div class="form-group">
-              <label for="id_address">Address</label>
-              {{ form.address }}
-              {% if form.address.errors %}
-                <div class="error">
-                  {% for error in form.address.errors %}
-                    <p>{{ error }}</p>
-                  {% endfor %}
-                </div>
-              {% endif %}
-            </div>
-          {% endif %}
+             <!-- Input -->
+             <div class="col-sm-6 mb-2">
+              <div class="js-form-message">
+                 <label id="locationLabel" class="form-label">
+                 Location
+                 <span class="text-danger">*</span>
+                 </label>
+                 <div class="form-group">
+                    <input type="text" class="form-control" name="address"  placeholder="Enter your location" aria-label="Enter your location" required="" aria-describedby="locationLabel" data-msg="Please enter your location." data-error-class="u-has-error" data-success-class="u-has-success">
+                    {% if form.address.errors %}
+                 <div class="text-danger">
+                     {% for error in form.address.errors %}
+                         <p>{{ error }}</p>
+                     {% endfor %}
+                 </div>
+                    {% endif %}
+                 </div>
+              </div>
+           </div>
+           <!-- End Input -->
 
           <!-- Submit button -->
-          <button type="submit" class="btn btn-primary">Save Profile</button>
+          <button type="submit" class="btn btn-success">Save Profile</button>
+          {% endif %}
         </form>
     </div>
+     <!-- Bootstrap core JavaScript -->
+     <script data-cfasync="false" src="/static/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="vendor/jquery/jquery.min.js" type="fadba546f7663562aae3e458-text/javascript"></script>
+     <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js" type="fadba546f7663562aae3e458-text/javascript"></script>
+     <!-- Contact form JavaScript -->
+     <!-- Do not edit these files! In order to set the email address and subject line for the contact form go to the bin/contact_me.php file. -->
+     <script src="/static/js/jqBootstrapValidation.js" type="fadba546f7663562aae3e458-text/javascript"></script>
+     <script src="/static/js/contact_me.js" type="fadba546f7663562aae3e458-text/javascript"></script>
+     <!-- Slick -->
+     <script src="/static/vendor/slick-master/slick/slick.js" type="fadba546f7663562aae3e458-text/javascript" charset="utf-8"></script>
+     <!-- lightgallery -->
+     <script src="/static/vendor/lightgallery-master/dist/js/lightgallery-all.min.js" type="fadba546f7663562aae3e458-text/javascript"></script>
+     <!-- select2 Js -->
+     <script src="/static/vendor/select2/js/select2.min.js" type="fadba546f7663562aae3e458-text/javascript"></script>
+     <!-- Custom -->
+     <script src="/static/js/custom.js" type="fadba546f7663562aae3e458-text/javascript"></script>
+  <script src="/static/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="fadba546f7663562aae3e458-|49" defer></script>
 </body>
 </html>

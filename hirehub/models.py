@@ -59,11 +59,12 @@ class UserProfile(models.Model):
         )
     
     firstname = models.CharField(max_length=50, null=False)
+    middlename = models.CharField(max_length=50, null=True, blank=True)
     lastname = models.CharField(max_length=50, null=False)
     date_of_birth = models.DateField(null=True,blank=True)
     gender = models.CharField(choices=choices, max_length=5, null=False, blank=False, default='M')
     address = models.CharField(max_length=60, null=False)
-    email = models.EmailField(unique=True,null=False)
+    email = models.EmailField(null=False)
     description = models.TextField(max_length=200, null=True)
     facebook = models.URLField(null=True,blank=True)
     number = models.CharField(
