@@ -22,7 +22,6 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('hirehub.urls')),
-    path('',include('userprofile.urls')),
 ] 
 
 if settings.DEBUG:
