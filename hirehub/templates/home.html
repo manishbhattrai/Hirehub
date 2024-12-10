@@ -6,6 +6,28 @@
     <title>Document</title>
 </head>
 <body>
-    hi
+    <nav>
+        <ul>
+            {% if user.is_authenticated %}
+                {% if user.role == 'buyer' %}
+                    <li><a href="/buyer-dashboard/">Buyer Dashboard</a></li>
+                    <li><a href="/shop/">Shop</a></li>
+                    <li><a href="/profile/">Profile</a></li>
+                    <li><a href="/logout/">Logout</a></li>
+
+                {% elif user.role == 'seller' %}
+                    <li><a href="/seller-dashboard/">Seller Dashboard</a></li>
+                    <li><a href="/add-product/">Add Product</a></li>
+                    <li><a href="/manage-products/">Manage Products</a></li>
+                    <li><a href="/profile/">Profile</a></li>
+                    <li><a href="/logout/">Logout</a></li>
+                {% endif %}
+
+            {% else %}
+                <li><a href="/login/">Login</a></li>
+                <li><a href="/signup/">signup</a></li>
+            {% endif %}
+        </ul>
+    </nav>
 </body>
 </html>

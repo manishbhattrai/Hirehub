@@ -20,6 +20,64 @@
     <link href="/static/vendor/select2/css/select2.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="/static/css/style.css" rel="stylesheet">  
+
+    <style>
+
+        /* Styling the photo upload box */
+.photo-upload-box {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    overflow: hidden;
+}
+
+/* Styling the plus sign */
+.plus-sign {
+    font-size: 40px;
+    color: #007bff;
+    display: block;
+}
+
+/* Styling the photo label */
+.image-text {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #777;
+}
+
+/* Image preview inside the box */
+.image-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* When an image is uploaded, hide the default text */
+.image-preview img {
+    display: none;
+}
+
+input[type="file"] {
+    opacity: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+/* Show the uploaded image when available */
+.image-preview img.show {
+    display: block;
+}
+</style>
 </head>
 <body>
   <div class="container">
@@ -52,17 +110,24 @@
                             <div class="js-form-message">
                                 <label for="id_image" class="form-label">Photo</label>
                                 <div class="form-group">
-                                    <input type="file" name="image" id="id_image" accept="image/jpeg, image/jpg" class="form-control" data-error-class="u-has-error" data-success-class="u-has-success">
-                                    {% if form.image.errors %}
-                                        <div class="text-danger">
-                                            {% for error in form.image.errors %}
-                                                <p>{{ error }}</p>
-                                            {% endfor %}
+                                    <div class="photo-upload-box">
+                                        <input type="file" name="image" id="id_image" accept="image/jpeg, image/jpg" class="form-control" onchange="previewImage(event)">
+                                        <div class="image-preview" id="imagePreview">
+                                            <span class="plus-sign">+</span>
+                                            <p class="image-text">Photo</p>
                                         </div>
-                                    {% endif %}
+                                        {% if form.image.errors %}
+                                            <div class="text-danger">
+                                                {% for error in form.image.errors %}
+                                                    <p>{{ error }}</p>
+                                                {% endfor %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                        
 
                         <!-- Input for First Name -->
                         <div class="col-sm-6 mb-2">
@@ -273,22 +338,27 @@
       
             <!-- Input -->
             <div class="col-sm-6 mb-2">
-              <div class="js-form-message">
-                 <label id="nameLabel" class="form-label">
-                 Photo
-                 </label>
-                 <div class="form-group">
-                    <input type="file" name="image" id="id_image" accept="image/jpeg, image/jpg" class="form-control"  data-error-class="u-has-error" data-success-class="u-has-success">
-                    {% if form.image.errors %}
-                 <div class="text-danger">
-                     {% for error in form.image.errors %}
-                         <p>{{ error }}</p>
-                     {% endfor %}
-                 </div>
-             {% endif %}
-                 </div>
-              </div>
-           </div>
+                <div class="js-form-message">
+                    <label for="id_image" class="form-label">Photo</label>
+                    <div class="form-group">
+                        <div class="photo-upload-box">
+                            <input type="file" name="image" id="id_image" accept="image/jpeg, image/jpg" class="form-control" onchange="previewImage(event)">
+                            <div class="image-preview" id="imagePreview">
+                                <span class="plus-sign">+</span>
+                                <p class="image-text">Photo</p>
+                            </div>
+                            {% if form.image.errors %}
+                                <div class="text-danger">
+                                    {% for error in form.image.errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
            <!-- End Input -->
 
             <!-- Input -->
@@ -319,7 +389,7 @@
                MiddleName
                </label>
                <div class="form-group">
-                  <input type="text" class="form-control" name="middlename"  placeholder="Enter your lastname" aria-label="Enter your username" required="" aria-describedby="usernameLabel" data-msg="Please enter your username." data-error-class="u-has-error" data-success-class="u-has-success">
+                  <input type="text" class="form-control" name="middlename"  placeholder="Enter your lastname" aria-label="Enter your username" aria-describedby="usernameLabel" data-msg="Please enter your username." data-error-class="u-has-error" data-success-class="u-has-success">
                   {% if form.middlename.errors %}
                <div class="text-danger">
                    {% for error in form.middlename.errors %}
@@ -395,5 +465,29 @@
      <!-- Custom -->
      <script src="/static/js/custom.js" type="fadba546f7663562aae3e458-text/javascript"></script>
   <script src="/static/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="fadba546f7663562aae3e458-|49" defer></script>
+
+<script>
+   // Function to show the image preview when an image is uploaded
+function previewImage(event) {
+
+    const preview = document.getElementById('imagePreview');
+    const file = event.target.files[0];
+    
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = new Image();
+            img.src = e.target.result;
+            img.classList.add('show');
+            preview.innerHTML = ''; // Clear the default content
+            preview.appendChild(img); // Append the uploaded image
+        };
+        reader.readAsDataURL(file);
+    } else {
+        // If no image is selected, reset to default
+        preview.innerHTML = '<span class="plus-sign">+</span><p class="image-text">Photo</p>';
+    }
+}
+</script>
 </body>
 </html>

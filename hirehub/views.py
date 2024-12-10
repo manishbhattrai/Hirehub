@@ -1,8 +1,8 @@
 from django.shortcuts import render,redirect
-from django.http import HttpResponse
+from django.http import HttpResponse,Http404
 from .forms import CustomRegistrationForm,CustomAuthenticationForm,SellerProfileForm,BuyerProfileForm
 from django.contrib.auth import login,authenticate,logout
-from .models import UserProfile
+from .models import UserProfile, CustomUser
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
@@ -104,12 +104,55 @@ def profile_setup(request):
     return render(request,'user_profile_form.html',{'form':form})
 
 def user_profile(request):
-    profile = UserProfile.objects.filter(user = request.user)
+    profile = UserProfile.objects.filter(user = request.user).order_by('id')
 
     context = {
         'profile':profile
     }
-    return render(request,'user_profile',context)
+    return render(request,'user_profile.html',context)
+
+
+
+@login_required(login_url='login')
+def profile_update(request,id):
+    update = UserProfile.objects.get(id=id)
+    if request.user.role == "seller":
+        form = SellerProfileForm( instance=update)
+    else:
+        form = BuyerProfileForm(instance=update)
+    
+    if request.method == 'POST':
+        if request.user.role == "seller":
+            form = SellerProfileForm(request.POST, request.FILES, instance=update)
+        
+        else:
+            form = BuyerProfileForm(request.POST, request.FILES, instance=update)
+        
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    
+    else:
+        if request.user.role == "seller":
+            form = SellerProfileForm(instance=update)
+        else:
+            form = BuyerProfileForm(instance=update)
+
+    return render(request, 'update_profile.html',{'form':form})
+
+
+
+@login_required(login_url='login')
+def user_delete(request,id):
+
+    try:
+         user = CustomUser.objects.get(id=id)
+    except CustomUser.DoesNotExist:
+        raise Http404("User doesnot exist.")
+    
+    user.delete()
+    return redirect('login')
+
 
     
 
