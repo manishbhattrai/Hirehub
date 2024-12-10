@@ -6,6 +6,7 @@
     <title>Document</title>
 </head>
 <body>
+    <a href="/delete/{{ user.id }}" class="delete-btn"> <button class="delete-btn">Delete Account</button></a>
     {% for student in profile %}
     <div class="student">
         <img src= "{{student.profile.url}}" alt="{{student.name}}" class="student-image">
@@ -14,7 +15,6 @@
         <p class="student-age">Age: {{ student.lastname }}</p>
         <p class="student-address">Address: {{ student.address }}</p>
         <p class="student-faculty">Faculty: {{ student.description }}</p>
-        <a href="/delete/{{ student.id }}" class="delete-btn"> <button class="delete-btn">Delete Account</button></a>
         <a href="/update/{{ student.id }}"><button>Update Profile </button></a>
 
     </div>
