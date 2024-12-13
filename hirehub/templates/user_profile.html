@@ -10,61 +10,27 @@
     <link href="/static/vendor/fontawesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- Material Design Icons -->
     <link href="/static/vendor/icons/css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css">
-    <!-- Slick -->
-    <link href="/static/vendor/slick-master/slick/slick.css" rel="stylesheet" type="text/css">
-    <!-- Lightgallery -->
-    <link href="/static/vendor/lightgallery-master/dist/css/lightgallery.min.css" rel="stylesheet">
-    <!-- Select2 CSS -->
-    <link href="/static/vendor/select2/css/select2-bootstrap.css" />
-    <link href="/static/vendor/select2/css/select2.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="/static/css/style.css" rel="stylesheet">
     <style>
-        aside {
-            position: relative;
-            top: 25px; 
-            left: 7px; 
+        /* Custom styles for confirmation dialog */
+        .modal-content {
+            background-color: #fff;
+            border-radius: 8px;
         }
-        .main{
-            position: relative;
-            top: 72px;
+        .modal-footer .btn {
+            padding: 10px 20px;
         }
-        #delete{
-            background-color: rgba(255, 0, 0, 0.696);
-            color: white;
-        }
-        #logout{
+        #logout {
             background-color: rgba(0, 0, 255, 0.658);
             color: white;
-        }
-        .main {
-            display: flex;
-            justify-content: center; 
-            align-items: center; 
-        }
-
-        
-        .box {
-            width: 100%;
-            max-width: 800px; 
-            margin: 0 auto; 
-        }
-
-        .btn-success {
-            margin: 10px 0;
-        }
-        .img-fluids {
-            display: block;
-            margin: 0 auto;
-            max-width: 150px; 
-            height: auto;
         }
     </style>
 </head>
 <body>
     {% if user.role == 'seller' %}
-     {% for users in profile %}
-     <div class="py-5">
+    {% for users in profile %}
+    <div class="py-5">
         <div class="container">
             <div class="row">
                 <!-- Profile Sidebar -->
@@ -74,46 +40,36 @@
                             <p>{{ users.media.url }}</p>
                             <img src="{{ users.media.url }}" class="img-fluid mt-2 rounded-circle" alt="{{users.firstname}}">
                             <h5 class="font-weight-bold text-dark mb-1 mt-4">
-                                {% if users.middlename%}
-
+                                {% if users.middlename %}
                                 {{users.firstname}} {{users.middlename}} {{users.lastname}}
-
-                                {%else %} 
-
+                                {% else %}
                                 {{ users.firstname }} {{users.lastname}}
-
                                 {% endif %}
                             </h5>
                         </div>
                         <div class="overflow-hidden border-top">
-                            <a class="font-weight-bold p-3 d-block" href="{% url 'login' %}"> Log Out </a>
+                            <button class="font-weight-bold p-3 d-block btn btn-link" data-toggle="modal" data-target="#logoutModal">Log Out</button>
                         </div>
                         <div class="overflow-hidden border-top">
-                            <a class="font-weight-bold p-3 d-block" href="/delete/{{ user.id }}">Delete Account </a>
+                            <button class="font-weight-bold p-3 d-block btn btn-link" data-toggle="modal" data-target="#deleteModal">Delete Account</button>
                         </div>
                     </div>
                 </aside>
-    
+
                 <!-- Main Content -->
                 <main class="col col-xl-8 order-xl-2 col-lg-12 order-lg-2 col-md-12 col-sm-12 col-12">
                     <div class="box shadow-sm rounded bg-white mb-3">
                         <div class="box-title border-bottom p-3">
-                            <!-- Personal Information -->
                             <h6 class="m-0">Personal Information</h6>
                         </div>
                         <div class="box-body p-3">
                             <div class="row mb-3">
                                 <div class="col-12">
                                     <p><strong>Name:</strong>
-                                        
                                         {% if users.middlename %}
-
                                         {{ users.firstname }} {{ users.middlename }} {{users.lastname }}
-
                                         {% else %}
-
                                         {{ users.firstname }} {{ users.lastname }}
-
                                         {% endif %}
                                     </p>
                                     <p><strong>Date of Birth:</strong> {{users.date_of_birth}}</p>
@@ -125,7 +81,7 @@
                             </div>
                         </div>
                     </div>
-    
+
                     <!-- Description -->
                     <div class="box shadow-sm rounded bg-white mb-3">
                         <div class="box-title border-bottom p-3">
@@ -137,7 +93,7 @@
                             </p>
                         </div>
                     </div>
-                      <!-- Skills -->
+                    <!-- Skills -->
                     <div class="box shadow-sm rounded bg-white mb-3">
                         <div class="box-title border-bottom p-3">
                             <h6 class="m-0">My Skills</h6>
@@ -148,14 +104,14 @@
                             </p>
                         </div>
                     </div>
-    
+
                     <!-- Social Media Links -->
                     <div class="box shadow-sm rounded bg-white mb-3">
                         <div class="box-title border-bottom p-3">
                             <h6 class="m-0">Social Media</h6>
                         </div>
                         <div class="box-body p-3">
-                            <p><a href="{{ users.facebook}}" target="_blank">Facebook</a></p>
+                            <p><a href="{{ users.facebook }}" target="_blank">Facebook</a></p>
                         </div>
                     </div>
                     <!-- Update Profile -->
@@ -163,16 +119,16 @@
                 </main>
             </div>
         </div>
-     </div>
-     {% endfor %}
+    </div>
+    {% endfor %}
 
     {% elif user.role == 'buyer' %}
-     {% for users in profile %}
-     <div class="main py-5">
+    {% for users in profile %}
+    <div class="main py-5">
         <main class="col col-xl-6 order-xl-2 col-lg-12 order-lg-2 col-md-12 col-sm-12 col-12">
             <div class="box shadow-sm rounded bg-white mb-3">
                 <!-- Image -->
-                <img src="{{ users.profile.url }}" class="img-fluids mt-2 rounded-circle" alt="{{ users.firstname }}">
+                <img src="{{ users.profile.url }}" class="img-fluid mt-2 rounded-circle" alt="{{ users.firstname }}">
                 <div class="box-title border-bottom p-3">
 
                     <!-- Personal Information -->
@@ -196,33 +152,57 @@
 
             <!-- Action Buttons -->
             <a href="/update/{{ users.id }}"><button class="btn btn-success">Update Profile</button></a>
-            <a href="{% url 'login' %}"><button class="btn btn-sucess" id="logout">Log Out</button></a>
-            <a href="/delete/{{ user.id }}"><button class="btn btn-sucess" id="delete">Delete Account</button></a>
+            <button class="btn btn-sucess" id="logout" data-toggle="modal" data-target="#logoutModal">Log Out</button>
+            <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Delete Account</button>
         </main>
     </div>
-     {% endfor %}
-
+    {% endfor %}
     {% endif %}
 
+    <!-- Log Out Confirmation Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Log Out Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to log out?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <a href="{% url 'login' %}" class="btn btn-primary">Log Out</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- Delete Account Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteModalLabel">Delete Account Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to delete your account?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <a href="/delete/{{ user.id }}" class="btn btn-danger">Delete Account</a>
+                </div>
+            </div>
+        </div>
+    </div>
 
-     <!-- Bootstrap core JavaScript -->
-     <script data-cfasync="false" src="/static/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="vendor/jquery/jquery.min.js" type="fadba546f7663562aae3e458-text/javascript"></script>
-     <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js" type="fadba546f7663562aae3e458-text/javascript"></script>
-     <!-- Contact form JavaScript -->
-     <!-- Do not edit these files! In order to set the email address and subject line for the contact form go to the bin/contact_me.php file. -->
-     <script src="/static/js/jqBootstrapValidation.js" type="fadba546f7663562aae3e458-text/javascript"></script>
-     <script src="/static/js/contact_me.js" type="fadba546f7663562aae3e458-text/javascript"></script>
-     <!-- Slick -->
-     <script src="/static/vendor/slick-master/slick/slick.js" type="fadba546f7663562aae3e458-text/javascript" charset="utf-8"></script>
-     <!-- lightgallery -->
-     <script src="/static/vendor/lightgallery-master/dist/js/lightgallery-all.min.js" type="fadba546f7663562aae3e458-text/javascript"></script>
-     <!-- select2 Js -->
-     <script src="/static/vendor/select2/js/select2.min.js" type="fadba546f7663562aae3e458-text/javascript"></script>
-     <!-- Custom -->
-     <script src="/static/js/custom.js" type="fadba546f7663562aae3e458-text/javascript"></script>
-  <script src="/static/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="fadba546f7663562aae3e458-|49" defer></script>
-
-
+    <!-- Bootstrap core JavaScript -->
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
