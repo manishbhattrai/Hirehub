@@ -3,31 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Home</title>
+    <!-- Bootstrap core CSS -->
+    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome-->
+    <link href="/static/vendor/fontawesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Material Design Icons -->
+    <link href="/static/vendor/icons/css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css">
+    <!-- Custom styles for this template -->
+    <link href="/static/css/style.css" rel="stylesheet">
 </head>
 <body>
-    <nav>
-        <ul>
-            {% if user.is_authenticated %}
-                {% if user.role == 'buyer' %}
-                    <li><a href="/buyer-dashboard/">Buyer Dashboard</a></li>
-                    <li><a href="/shop/">Shop</a></li>
-                    <li><a href="/profile/">Profile</a></li>
-                    <li><a href="/logout/">Logout</a></li>
-
-                {% elif user.role == 'seller' %}
-                    <li><a href="/seller-dashboard/">Seller Dashboard</a></li>
-                    <li><a href="/add-product/">Add Product</a></li>
-                    <li><a href="/manage-products/">Manage Products</a></li>
-                    <li><a href="/profile/">Profile</a></li>
-                    <li><a href="/logout/">Logout</a></li>
-                {% endif %}
-
-            {% else %}
-                <li><a href="/login/">Login</a></li>
-                <li><a href="/signup/">signup</a></li>
-            {% endif %}
-        </ul>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white osahan-nav-mid px-0 border-top shadow-sm">
+        <div class="container">
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav">
+                    {% if user.is_authenticated %}
+                        {% if user.role == 'buyer' %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/main/">Main Pages</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/profile/">Profile</a>
+                            </li>
+                        {% elif user.role == 'seller' %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/main/">Main Page</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/profile/">Profile</a>
+                            </li>
+                        {% endif %}
+                    {% else %}
+                       <li class="nav-item">
+                            <a class="nav-link" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/about/">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/login/">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/signup/">Sign Up</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
     </nav>
 </body>
 </html>

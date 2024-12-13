@@ -70,7 +70,7 @@ def user_login(request):
 
 def users_logout(request):
     logout(request)
-    return redirect('login')
+    return redirect('home')
 
 
 
@@ -103,6 +103,7 @@ def profile_setup(request):
     
     return render(request,'user_profile_form.html',{'form':form})
 
+@login_required(login_url='login')
 def user_profile(request):
     profile = UserProfile.objects.filter(user = request.user).order_by('id')
 
