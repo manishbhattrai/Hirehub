@@ -153,6 +153,9 @@ def user_delete(request,id):
     user.delete()
     return redirect('login')
 
+def aboutus(request):
+    return render(request,'aboutus.html')
+
 
     
 
