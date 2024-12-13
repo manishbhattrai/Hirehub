@@ -78,7 +78,7 @@ def users_logout(request):
 def profile_setup(request):
 
     if request.user.role not in ["seller","buyer"]:
-        return redirect('/')
+        return redirect('login')
     
 
     user_profile,created = UserProfile.objects.get_or_create(user = request.user)
