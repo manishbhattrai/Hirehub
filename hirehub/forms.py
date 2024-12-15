@@ -1,4 +1,4 @@
-from .models import CustomUser,UserProfile
+from .models import CustomUser, UserProfile, Skill
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 import re
@@ -94,10 +94,15 @@ class CustomAuthenticationForm(AuthenticationForm):
         return password
 
 class SellerProfileForm(forms.ModelForm):
+    skills = forms.ModelMultipleChoiceField(
+        queryset=Skill.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required = True
+    )
     class Meta:
         model = UserProfile
-        fields = ['image','firstname','middlename','lastname','date_of_birth','gender','address','email','description','facebook','number','skill']
-
+        fields = ['image','firstname','middlename','lastname','date_of_birth','gender','address','email','description','facebook','number','skills']
+        
     def clean_email(self):
         email = self.cleaned_data.get('email')
         print("Email from cleaned data:", email)
@@ -105,10 +110,23 @@ class SellerProfileForm(forms.ModelForm):
         if not email:
             raise forms.ValidationError("Email is Required.")
         
-        if email == '':
+        if email.strip() == '':
             raise forms.ValidationError("Email cannot be empty.")
         
         return email
+    
+    def clean_skills(self):
+        skills = self.cleaned_data.get('skills')
+
+        if not skills:
+            raise forms.ValidationError("You must select atleast one skill.")
+        
+        if len(skills) != len(set(skills)):
+            raise forms.ValidationError("Duplicate skills are not allowed.")
+        
+        return skills
+        
+
 
 
 

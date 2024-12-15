@@ -26,10 +26,37 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.username
+
+
+class Skill(models.Model):
+
+    SKILL_CHOICES = [
+    ('mechanic','Mechanic'),
+    ('carpenter','Carpenter'),
+    ('plumber','Plumber'),
+    ('painter','Painter'),
+    ('housekeeper','House Kepper'),
+    ('builder','Builder'),
+    ('welders','Welders'),
+    ('window-installer','Window Installer'),
+    ('tile-setter', 'Tile Setter'),
+    ('gardening-experts', 'Gardening Experts'),
+    ('cleaner','Cleaner'),
+    ('babysitter','Babysitter'),
+    ('caterer','Caterer'),
+    ('driver','Driver'),
+    ('others','Others')
+    ]
+
+    name = models.CharField(choices=SKILL_CHOICES, max_length=50)
+
+    def __str__(self):
+        return self.name
+
+
     
 
 User = get_user_model()
-
 class UserProfile(models.Model):
 
 
@@ -71,9 +98,7 @@ class UserProfile(models.Model):
         max_length=14,null=False, 
         validators=[phone_number_regex],
         help_text="Enter phone number in the format: +9779XXXXXXXX or 9XXXXXXXX.")
-    
-
-    skill = models.TextField(max_length=200, null=False)
+    skills = models.ManyToManyField(Skill)
     has_profile = models.BooleanField(default=False)
 
     def __str__(self):

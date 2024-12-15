@@ -311,14 +311,33 @@ input[type="file"] {
                             </div>
                         </div>
 
-                        <div class="col-sm-6 mb-2">
+                        <div class="col-sm-6 mb-4">
                             <div class="js-form-message">
-                                <label for="id_skill" class="form-label">Your Skills <span class="text-danger">*</span></label>
+                                <label for="id_skills" class="form-label d-block">
+                                    Your Skills
+                                    <span class="text-danger">*</span>
+                                </label>
+                                
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="skill" id="id_skill" placeholder="Enter your skills" required>
-                                    {% if form.skill.errors %}
-                                        <div class="text-danger">
-                                            {% for error in form.skill.errors %}
+                                    {% for skill in form.skills.field.choices %}
+                                        <div class="form-check">
+                                            <input 
+                                                type="checkbox" 
+                                                name="skills" 
+                                                value="{{ skill.0 }}"  
+                                                id="id_skills_{{ skill.0 }}" 
+                                                {% if skill.0 in form.cleaned_data.skills.all %}checked{% endif %} 
+                                                class="form-check-input"
+                                            >
+                                            <label for="id_skills_{{ skill.0 }}" class="form-check-label">
+                                                {{ skill.1 }}
+                                            </label>
+                                        </div>
+                                    {% endfor %}
+                        
+                                    {% if form.skills.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {% for error in form.skills.errors %}
                                                 <p>{{ error }}</p>
                                             {% endfor %}
                                         </div>

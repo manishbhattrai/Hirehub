@@ -77,31 +77,39 @@ def users_logout(request):
 @login_required(login_url='login')
 def profile_setup(request):
 
-    if request.user.role not in ["seller","buyer"]:
+    if request.user.role not in ["seller", "buyer"]:
         return redirect('login')
-    
 
-    user_profile,created = UserProfile.objects.get_or_create(user = request.user)
+    user_profile, created = UserProfile.objects.get_or_create(user=request.user)
+
     if user_profile.has_profile:
         return redirect('/')
-    
+
     if request.method == 'POST':
         if request.user.role == "seller":
             form = SellerProfileForm(request.POST, instance=user_profile)
         else:
             form = BuyerProfileForm(request.POST, instance=user_profile)
+
         if form.is_valid():
-            form.save()
+            user_profile = form.save(commit=False)
+            
+            user_profile.save()
+            form.save_m2m()
+
             user_profile.has_profile = True
             user_profile.save()
+
             return redirect('/')
+
     else:
         if request.user.role == "seller":
             form = SellerProfileForm(instance=user_profile)
         else:
             form = BuyerProfileForm(instance=user_profile)
-    
-    return render(request,'user_profile_form.html',{'form':form})
+
+    return render(request, 'user_profile_form.html', {'form': form})
+
 
 @login_required(login_url='login')
 def user_profile(request):
@@ -130,7 +138,10 @@ def profile_update(request,id):
             form = BuyerProfileForm(request.POST, request.FILES, instance=update)
         
         if form.is_valid():
-            form.save()
+            user_profile = form.save(commit=False)
+            
+            user_profile.save()
+            form.save_m2m()
             return redirect('profile')
     
     else:
