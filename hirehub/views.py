@@ -1,21 +1,22 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.http import HttpResponse,Http404
 from .forms import CustomRegistrationForm,CustomAuthenticationForm,SellerProfileForm,BuyerProfileForm
 from django.contrib.auth import login,authenticate,logout
 from .models import UserProfile, CustomUser
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 
 # Create your views here.
 
 def home(request):
-    return render(request,'home.html')
+    page = UserProfile.objects.filter(user__role = 'seller')[:4]
+    return render(request,'home.html',{'page':page})
 
 def user_create(request):
     if request.method == 'POST':
         form = CustomRegistrationForm(request.POST)
 
         ##print(request.POST)
-
 
         if form.is_valid():
             form.save()
@@ -87,9 +88,9 @@ def profile_setup(request):
 
     if request.method == 'POST':
         if request.user.role == "seller":
-            form = SellerProfileForm(request.POST, instance=user_profile)
+            form = SellerProfileForm(request.POST, request.FILES, instance=user_profile)
         else:
-            form = BuyerProfileForm(request.POST, instance=user_profile)
+            form = BuyerProfileForm(request.POST, request.FILES, instance=user_profile)
 
         if form.is_valid():
             user_profile = form.save(commit=False)
@@ -113,7 +114,7 @@ def profile_setup(request):
 
 @login_required(login_url='login')
 def user_profile(request):
-    profile = UserProfile.objects.filter(user = request.user).order_by('id')
+    profile = UserProfile.objects.filter(user = request.user)
 
     context = {
         'profile':profile
@@ -165,10 +166,61 @@ def user_delete(request,id):
     user.delete()
     return redirect('login')
 
+
+
 def aboutus(request):
     return render(request,'aboutus.html')
 
+def profile_view(request,id):
+    profile = get_object_or_404(UserProfile, id=id)
 
+    return render(request,'profile_view.html',{'profile':profile})
+
+
+def get_seller_profiles():
+    return UserProfile.objects.filter(user__role = 'seller')
+
+def main_page(request):
+    list = get_seller_profiles()
+
+    paginator = Paginator(list,12)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    context = {
+        
+        'list':list,
+        'page_obj':page_obj,
+    }
+    return render(request,'main_page.html',context)
+
+
+def search_list(request):
+     
+    query = request.GET.get('search', '')
+
+    if query:
+        results = UserProfile.objects.filter(address__icontains = query) | UserProfile.objects.filter(skills__name__icontains = query)
+        results = results.distinct()
     
+    else:
+        query = UserProfile.objects.all()
 
+    list = get_seller_profiles()
 
+    filtered_results = results.filter(user__role = 'seller')
+
+    paginator = Paginator(filtered_results,12)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+        
+     
+    context = {
+        'query':query,
+        'results':results,
+        'list':list,
+        'page_obj':page_obj,
+    }
+        
+        
+    return render(request,'search.html',context)

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <!-- Bootstrap core CSS -->
+    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome-->
+    <link href="/static/vendor/fontawesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Material Design Icons -->
+    <link href="/static/vendor/icons/css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css">
+    <!-- Custom styles for this template -->
+    <link href="/static/css/style.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-white osahan-nav-mid px-0 border-top shadow-sm py-2 sticky-top">
+        <div class="container">
+           <div class="collapse navbar-collapse" id="navbarResponsive">
+              <ul class="navbar-nav">
+                 <li class="nav-item dropdown">
+                    <a class="nav-link " href="/">
+                    Home
+                    </a>
+                 </li>
+                 <li class="nav-item">
+                    <a class="nav-link " href="/main/">
+                    Main Page
+                    </a>
+                 </li>
+                 <li class="nav-item">
+                    <a class="nav-link " href="/profile/">
+                    Profile
+                    </a>
+                 </li>
+              </ul>
+           </div>
+        </div>
+    </nav>
+
+    <div class="py-5">
+        <div class="container">
+            <div class="row">
+                <!-- Profile Sidebar -->
+                <aside class="col col-xl-3 order-xl-1 col-lg-12 order-lg-1 col-12">
+                    <div class="box mb-3 shadow-sm rounded bg-white profile-box text-center">
+                        <div class="py-4 px-3 border-bottom">
+                            {% if users.image %}
+                            <img src="{{users.image.url}}" 
+                            class="img-fluid mt-2 rounded-circle" 
+                            alt="{{users.firstname}}" 
+                            style="width: 150px; height: 150px; object-fit: cover;">
+                            {% else %}
+                            <p>No profile image available.</p>
+                            {% endif %}
+                            <h5 class="font-weight-bold text-dark mb-1 mt-4">
+                                {% if users.middlename %}
+                                {{users.firstname}} {{users.middlename}} {{users.lastname}}
+                                {% else %}
+                                {{ users.firstname }} {{users.lastname}}
+                                {% endif %}
+                            </h5>
+                        </div>
+                    </div>
+
+                    <div class="box mb-3 shadow-sm rounded bg-white profile-box text-center">
+                        <div class="box-title border-bottom p-3">
+                            <h6 class="m-0">Skills</h6>
+                        </div>
+                        <div class="box-body p-3">
+                            {% if users.skills.exists %}
+                                <ul>
+                                    {% for skill in users.skills.all %}
+                                        <li>{{ skill.name }}</li> 
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <p>No skills assigned yet.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </aside>
+
+                <main class="col col-xl-8 order-xl-2 col-lg-12 order-lg-2 col-md-12 col-sm-12 col-12">
+                    <div class="box shadow-sm rounded bg-white mb-3">
+                        <div class="box-title border-bottom p-3">
+                            <h6 class="m-0">Personal Information</h6>
+                        </div>
+                        <div class="box-body p-3">
+                            <div class="row mb-3">
+                                <div class="col-12">
+                                    <p><strong>Name:</strong>
+                                        {% if users.middlename %}
+                                        {{ users.firstname }} {{ users.middlename }} {{users.lastname }}
+                                        {% else %}
+                                        {{ users.firstname }} {{ users.lastname }}
+                                        {% endif %}
+                                    </p>
+                                    <p><strong>Date of Birth:</strong> {{users.date_of_birth}}</p>
+                                    <p><strong>Gender:</strong> {{users.gender}}</p>
+                                    <p><strong>Address:</strong> {{users.address}}</p>
+                                    <p><strong>Email:</strong> {{users.email}}</p>
+                                    <p><strong>Phone Number:</strong> {{users.number}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="box shadow-sm rounded bg-white mb-3">
+                        <div class="box-title border-bottom p-3">
+                            <h6 class="m-0">About Me</h6>
+                        </div>
+                        <div class="box-body p-3">
+                            <p>
+                                {{ users.description }}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="box shadow-sm rounded bg-white mb-3">
+                        <div class="box-title border-bottom p-3">
+                            <h6 class="m-0">Social Media</h6>
+                        </div>
+                        <div class="box-body p-3">
+                            <p><a href="{{ users.facebook }}" target="_blank">Facebook</a></p>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+ </body>
+</html>

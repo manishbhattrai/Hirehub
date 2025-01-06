@@ -58,5 +58,191 @@
             </div>
         </div>
     </nav>
+    <section class="py-5 homepage-search-block position-relative">
+        <div class="container">
+           <div class="row py-lg-5">
+              <div class="col-lg-7 py-5">
+                 <div class="homepage-search-title">
+                    <h1 class="mb-3 text-shadow text-gray-900 font-weight-bold">Find The Perfect Freelance Services For
+                       yourself.</h1>
+                    <h5 class="mb-5 text-shadow text-gray-800 font-weight-normal">Hirehub helps you to find quality local
+                       professionals.
+                    </h5>
+                 </div>
+              </div>
+              <div class="col-lg-5">
+                 <img class="img-fluid" src="/static/images/banner.svg" alt='' />
+              </div>
+           </div>
+        </div>
+     </section>
+
+     <div class="freelance-projects bg-white py-5">
+
+        <div class="market-wrapper py-5 bg-white">
+           <div class="container">
+              <h2 class="text-center">Some of the Popular Category</h2>
+              <ul class="categories-list mb-0">
+                 <li>
+                    <a>
+                    <img src="/static/images/plumber.svg" alt="" loading="lazy">plumber
+                    </a>
+                 </li>
+                 <li>
+                    <a>
+                    <img src="/static/images/mechanics.png" alt="Digital Marketing" loading="lazy">Mechanic
+                    </a>
+                 </li>
+                 <li>
+                    <a>
+                    <img src="/static/images/driver.png" alt="Writing &amp; Translation" loading="lazy">Driver
+                    </a>
+                 </li>
+                 <li>
+                    <a>
+                    <img src="/static/images/carpenter.png" alt="Video &amp; Animation" loading="lazy">carpenter
+                    </a>
+                 </li>
+                 <li>
+                    <a>
+                    <img src="/static/images/gardener.png" alt="Music &amp; Audio" loading="lazy">gardener</a>
+                 </li>
+                 <li>
+                    <a>
+                    <img src="/static/images/cleaner.png" alt="Programming &amp; Tech" loading="lazy">cleaner
+                    </a>
+                 </li>
+                 <li>
+                    <a>
+                    <img src="/static/images/Builder.png" alt="Business" loading="lazy">Builder
+                    </a>
+                 </li>
+                 <li>
+                    <a>
+                    <img src="/static/images/painter.png" alt="Lifestyle" loading="lazy">Painter
+                    </a>
+                 </li>
+              </ul>
+           </div>
+              
+         </div>
+     </div>
+        
+        <section class="py-5">
+           <div class="view_slider recommended">
+              <div class="container">
+                 <div class="col">
+                    <h3>Our Freelancers {% if user.is_authenticated %} <a href="/main/" class="float-right">See More ></a> {% endif %}</h3>
+                 </div>
+                    <div class="row"  style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
+                        {% for detail in page %}
+                       <div class="view recent-slider recommended-slider">
+                          <a>
+                             <img class="img-fluid" loading="lazy" src="{{ detail.image.url }}" />
+                          </a>
+                          <div class="inner-slider">
+                             <div class="inner-wrapper">
+                                <div class="d-flex align-items-center">
+                                   <span class="seller-name">
+                                    {% if user.is_authenticated %}
+                                      <a href="">
+                                        {% endif %}
+                                         <h6>
+                                        {% if detail.middlename %}
+                                         {{ detail.firstname }} {{ detail.middlename }} {{ detail.lastname }}
+                                        {% else %}
+                                         {{ detail.firstname }} {{ detail.lastname }}
+                                        {% endif %}
+                                       </h6>
+                                      </a>
+                                      <span class="level hint--top level-one-seller">
+                                         {{ detail.address }}
+                                      </span>
+                                      {% if detail.skills.exists %}
+                                      <ul style="display: flex;">
+                                        {% for skill in detail.skills.all %}
+                                            <li>{{ skill.name }},</li> 
+                                        {% endfor %}
+                                    </ul>
+                                    {% else %}
+                                    <p>No skills assigned yet.</p>
+                                {% endif %}
+                                      
+                                   </span>
+                                </div>
+                                <h3>{{ detail.description }}</h3>
+                                <div class="content-info">
+                                   <div class="rating-wrapper">
+                                   </div>
+                                </div>
+                             </div>
+                          </div>
+                       </div>
+                       {% endfor %}
+                    </div>
+                 </div>
+              </div>
+           </div>
+      </div>
+    </section>
+    <div class="container">
+        <div class="about-section py-5">
+           <div class="row align-items-center">
+              <div class="col-md-6">
+                 <h2>Get Work Done fater Through HireHub
+                    , <br>With Confidence
+                 </h2>
+                 <ul>
+                    <li><span><img src="/static/images/checkmark.svg"> Easy to Connect</span>
+                       Quickly browse through professional profiles and get in touch with the right expert for your needs, directly through the platform.
+                    </li>
+                    <li><span><img src="/static/images/checkmark.svg"> Reliable Local Professionals
+                       </span>      HireHub connects you with trusted experts who are experienced and ready to handle your needs with professionalism.
+  
+                    </li>
+                    <li><span><img src="/static/images/checkmark.svg">Quality You Can Rely On</span>
+                       All service providers on HireHub are committed to delivering high-quality work, ensuring a job well done every time.
+  
+                    </li>
+                 </ul>
+              </div>
+              <div class="col-md-6">
+                 <img src="/static/images/video.svg" class="video-img w-100">
+              </div>
+           </div>
+        </div>
+      </div>
+      {% if not user.is_authenticated %}
+     <div>
+        <div class="get-started">
+           <div class="content">
+              <h2>Find Best Freelance Services For You.</h2>
+              <p>We've got you covered for all your  needs</p>
+              <a href="{% url 'signup' %}" class="c-btn c-fill-color-btn">Get Started</a>
+           </div>
+        </div>
+     </div>
+     {% endif %}
+      <!-- Bootstrap core JavaScript -->
+   <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+   <script src="vendor/jquery/jquery.min.js" type="69173fbf60cf855566880bd6-text/javascript"></script>
+   <script src="vendor/bootstrap/js/bootstrap.bundle.min.js" type="69173fbf60cf855566880bd6-text/javascript"></script>
+   <!-- Contact form JavaScript -->
+   <!-- Do not edit these files! In order to set the email address and subject line for the contact form go to the bin/contact_me.php file. -->
+   <script src="js/jqBootstrapValidation.js" type="69173fbf60cf855566880bd6-text/javascript"></script>
+   <script src="js/contact_me.js" type="69173fbf60cf855566880bd6-text/javascript"></script>
+   <!-- Slick -->
+   <script src="vendor/slick-master/slick/slick.js" type="69173fbf60cf855566880bd6-text/javascript"
+      charset="utf-8"></script>
+   <!-- lightgallery -->
+   <script src="vendor/lightgallery-master/dist/js/lightgallery-all.min.js"
+      type="69173fbf60cf855566880bd6-text/javascript"></script>
+   <!-- select2 Js -->
+   <script src="vendor/select2/js/select2.min.js" type="69173fbf60cf855566880bd6-text/javascript"></script>
+   <!-- Custom -->
+   <script src="js/custom.js" type="69173fbf60cf855566880bd6-text/javascript"></script>
+   <script src="/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js"
+      data-cf-settings="69173fbf60cf855566880bd6-|49" defer></script>
+      
 </body>
 </html>

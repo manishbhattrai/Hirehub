@@ -111,7 +111,7 @@ input[type="file"] {
                                 <label for="id_image" class="form-label">Photo</label>
                                 <div class="form-group">
                                     <div class="photo-upload-box">
-                                        <input type="file" name="image" id="id_image" accept="image/jpeg, image/jpg" class="form-control" onchange="previewImage(event)">
+                                        <input type="file" name="image" id="id_image" value="{{ form.image.value }}" accept="image/jpeg, image/jpg" class="form-control" onchange="previewImage(event)">
                                         <div class="image-preview" id="imagePreview">
                                             <span class="plus-sign">+</span>
                                             <p class="image-text">Photo</p>
@@ -134,7 +134,7 @@ input[type="file"] {
                             <div class="js-form-message">
                                 <label for="id_firstname" class="form-label">FirstName <span class="text-danger">*</span></label>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="firstname" placeholder="Enter your firstname" required data-msg="Please enter your name." aria-describedby="nameLabel">
+                                    <input type="text" class="form-control" name="firstname" placeholder="Enter your firstname" value="{{ form.firstname.value }}" required data-msg="Please enter your name." aria-describedby="nameLabel">
                                     {% if form.firstname.errors %}
                                         <div class="text-danger">
                                             {% for error in form.firstname.errors %}
@@ -151,7 +151,7 @@ input[type="file"] {
                           <div class="js-form-message">
                               <label for="id_firstname" class="form-label">MiddleName</label>
                               <div class="form-group">
-                                  <input type="text" class="form-control" name="middlename" placeholder="Enter your Middlename"  data-msg="Please enter your middlename." aria-describedby="nameLabel">
+                                  <input type="text" class="form-control" name="middlename" placeholder="Enter your Middlename" form="{{ form.middlename.value }}"  data-msg="Please enter your middlename." aria-describedby="nameLabel">
                                   {% if form.middlename.errors %}
                                       <div class="text-danger">
                                           {% for error in form.middlename.errors %}
@@ -169,7 +169,7 @@ input[type="file"] {
                             <div class="js-form-message">
                                 <label for="id_lastname" class="form-label">LastName <span class="text-danger">*</span></label>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="lastname" placeholder="Enter your lastname" required data-msg="Please enter your username." aria-describedby="usernameLabel">
+                                    <input type="text" class="form-control" name="lastname" placeholder="Enter your lastname" value="{{ form.lastname.value }}" required data-msg="Please enter your username." aria-describedby="usernameLabel">
                                     {% if form.lastname.errors %}
                                         <div class="text-danger">
                                             {% for error in form.lastname.errors %}
@@ -189,7 +189,7 @@ input[type="file"] {
                             <div class="js-form-message">
                                 <label for="id_date_of_birth" class="form-label">Birth Date</label>
                                 <div class="form-group">
-                                    <input type="date" name="date_of_birth" id="id_date_of_birth" class="form-control">
+                                    <input type="date" name="date_of_birth" value="{{ form.date_of_birth.value }}" id="id_date_of_birth" class="form-control">
                                     {% if form.date_of_birth.errors %}
                                         <div class="text-danger">
                                             {% for error in form.date_of_birth.errors %}
@@ -206,8 +206,8 @@ input[type="file"] {
                             <div class="js-form-message">
                                 <label for="id_gender" class="form-label">Gender <span class="text-danger">*</span></label>
                                 <div class="form-group">
-                                    <select class="form-control custom-select" name="gender" id="id_gender" required>
-                                        <option value="" selected>Select Your Gender</option>
+                                    <select class="form-control custom-select" name="gender"  id="id_gender" required>
+                                        <option value="{{ form.gender.value }}" selected>Select Your Gender</option>
                                         <option value="M">Male</option>
                                         <option value="F">Female</option>
                                     </select>
@@ -229,7 +229,7 @@ input[type="file"] {
                             <div class="js-form-message">
                                 <label for="id_email" class="form-label">Email address <span class="text-danger">*</span></label>
                                 <div class="form-group">
-                                    <input type="email" class="form-control" name="email" id="id_email" placeholder="Enter your email address" required>
+                                    <input type="email" class="form-control" name="email" id="id_email" value="{{ form.email.value }}" placeholder="Enter your email address" required>
                                     {% if form.email.errors %}
                                         <div class="text-danger">
                                             {% for error in form.email.errors %}
@@ -245,7 +245,7 @@ input[type="file"] {
                             <div class="js-form-message">
                                 <label for="id_address" class="form-label">Location <span class="text-danger">*</span></label>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="address" id="id_address" placeholder="Enter your location" required>
+                                    <input type="text" class="form-control" name="address" value="{{ form.address.value }}" id="id_address" placeholder="Enter your location" required>
                                     {% if form.address.errors %}
                                         <div class="text-danger">
                                             {% for error in form.address.errors %}
@@ -264,7 +264,7 @@ input[type="file"] {
                             <div class="js-form-message">
                                 <label for="id_description" class="form-label">About Yourself</label>
                                 <div class="form-group">
-                                    <input type="text" class="form-control" name="description" id="id_description" placeholder="Enter your bio">
+                                    <input type="text" class="form-control" value="{{ form.description.value }}" name="description" id="id_description" placeholder="Enter your bio">
                                     {% if form.description.errors %}
                                         <div class="text-danger">
                                             {% for error in form.description.errors %}
@@ -280,7 +280,7 @@ input[type="file"] {
                             <div class="js-form-message">
                                 <label for="id_facebook" class="form-label">Your Facebook Link</label>
                                 <div class="form-group">
-                                    <input class="form-control" type="url" name="facebook" id="id_facebook" placeholder="Enter your Facebook">
+                                    <input class="form-control" type="url" value="{{ form.facebook.value }}" name="facebook" id="id_facebook" placeholder="Enter your Facebook">
                                     {% if form.facebook.errors %}
                                         <div class="text-danger">
                                             {% for error in form.facebook.errors %}
@@ -299,7 +299,7 @@ input[type="file"] {
                             <div class="js-form-message">
                                 <label for="id_phone" class="form-label">Phone number</label>
                                 <div class="form-group">
-                                    <input class="form-control" type="tel" name="number" id="id_phone" placeholder="Enter your phone number" required>
+                                    <input class="form-control" type="tel" value="{{ form.number.value }}" name="number" id="id_phone" placeholder="Enter your phone number" required>
                                     {% if form.number.errors %}
                                         <div class="text-danger">
                                             {% for error in form.number.errors %}
@@ -388,7 +388,7 @@ input[type="file"] {
                  <span class="text-danger">*</span>
                  </label>
                  <div class="form-group">
-                    <input type="text" class="form-control" name="firstname" placeholder="Enter your firstname" aria-label="Enter your name" required="" aria-describedby="nameLabel" data-msg="Please enter your name." data-error-class="u-has-error" data-success-class="u-has-success">
+                    <input type="text" class="form-control" value="{{ form.firstname.value }}" name="firstname" placeholder="Enter your firstname" aria-label="Enter your name" required="" aria-describedby="nameLabel" data-msg="Please enter your name." data-error-class="u-has-error" data-success-class="u-has-success">
                     {% if form.firstname.errors %}
                  <div class="text-danger">
                      {% for error in form.firstname.errors %}
@@ -408,7 +408,7 @@ input[type="file"] {
                MiddleName
                </label>
                <div class="form-group">
-                  <input type="text" class="form-control" name="middlename"  placeholder="Enter your lastname" aria-label="Enter your username" required="" aria-describedby="usernameLabel" data-msg="Please enter your username." data-error-class="u-has-error" data-success-class="u-has-success">
+                  <input type="text" class="form-control" name="middlename" value="{{ form.middlename.value }}" placeholder="Enter your lastname" aria-label="Enter your username" required="" aria-describedby="usernameLabel" data-msg="Please enter your username." data-error-class="u-has-error" data-success-class="u-has-success">
                   {% if form.middlename.errors %}
                <div class="text-danger">
                    {% for error in form.middlename.errors %}
@@ -429,7 +429,7 @@ input[type="file"] {
                <span class="text-danger">*</span>
                </label>
                <div class="form-group">
-                  <input type="text" class="form-control" name="lastname"  placeholder="Enter your lastname" aria-label="Enter your username" required="" aria-describedby="usernameLabel" data-msg="Please enter your username." data-error-class="u-has-error" data-success-class="u-has-success">
+                  <input type="text" class="form-control" name="lastname" value="{{ form.lastname.value }}"  placeholder="Enter your lastname" aria-label="Enter your username" required="" aria-describedby="usernameLabel" data-msg="Please enter your username." data-error-class="u-has-error" data-success-class="u-has-success">
                   {% if form.lastname.errors %}
                <div class="text-danger">
                    {% for error in form.lastname.errors %}
@@ -450,7 +450,7 @@ input[type="file"] {
                  <span class="text-danger">*</span>
                  </label>
                  <div class="form-group">
-                    <input type="text" class="form-control" name="address"  placeholder="Enter your location" aria-label="Enter your location" required="" aria-describedby="locationLabel" data-msg="Please enter your location." data-error-class="u-has-error" data-success-class="u-has-success">
+                    <input type="text" class="form-control" name="address" value="{{ form.address.value }}"  placeholder="Enter your location" aria-label="Enter your location" required="" aria-describedby="locationLabel" data-msg="Please enter your location." data-error-class="u-has-error" data-success-class="u-has-success">
                     {% if form.address.errors %}
                  <div class="text-danger">
                      {% for error in form.address.errors %}
@@ -498,8 +498,8 @@ function previewImage(event) {
             const img = new Image();
             img.src = e.target.result;
             img.classList.add('show');
-            preview.innerHTML = ''; // Clear the default content
-            preview.appendChild(img); // Append the uploaded image
+            preview.innerHTML = ''; 
+            preview.appendChild(img); 
         };
         reader.readAsDataURL(file);
     } else {

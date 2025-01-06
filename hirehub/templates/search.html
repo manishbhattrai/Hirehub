@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <!-- Bootstrap core CSS -->
+    <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome-->
+    <link href="/static/vendor/fontawesome/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Material Design Icons -->
+    <link href="/static/vendor/icons/css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css">
+    <!-- Custom styles for this template -->
+    <link href="/static/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-white osahan-nav-mid px-0 border-top shadow-sm py-2 sticky-top">
+        <div class="container">
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link " href="/">
+                            Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="/main/">
+                            Main Page
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="/profile/">
+                            Profile
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <section class="py-5 bg-dark inner-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-center">
+                    <h1 class="mt-0 mb-3 text-white">Main Page</h1>
+                    <div class="breadcrumbs">
+                        <p class="mb-0 text-white"><a class="text-white" href="{% url 'home' %}">Home</a> / <span
+                                class="text-success">Main Page</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <div class="main-page best-selling">
+        <div class="view_slider recommended pt-5">
+            <div class="container">
+                <div class="sorting-div d-flex align-items-center justify-content-between">
+                    <h3>Services Available In Hirehub</h3>
+                    <form action="/search" method="get">
+                        <div class="sorting d-flex align-items-center">
+                            <p>Search By</p>
+                            <input type="text" name="search" value="{{ query }}" placeholder=" skill, location">
+                            <button class="btn btn-success" type="submit"> Search </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+           
+
+            {% if results.count > 0 %}
+            <div class="sorting-div d-flex align-items-center justify-content-between py-2 ml-5 px-3">
+            <h5>Search Results:</h5>
+            </div>
+
+            <section class="py-5">
+                <div class="view_slider recommended">
+                    <div class="container">
+                        <div class="row" style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
+                            {% for detail in page_obj %}
+                            <div class="view recent-slider recommended-slider">
+                                <a>
+                                    <img class="img-fluid" loading="lazy" src="{{ detail.image.url }}" />
+                                </a>
+                                <div class="inner-slider">
+                                    <div class="inner-wrapper">
+                                        <div class="d-flex align-items-center">
+                                            <span class="seller-name">
+                                                {% if user.is_authenticated %}
+                                                <a href="{% url 'profile-view' user.id %}">
+                                                    {% endif %}
+                                                    <h6>
+                                                        {% if detail.middlename %}
+                                                        {{ detail.firstname }} {{ detail.middlename }} {{ detail.lastname }}
+                                                       
+                                                        {% else %}
+                                                        {{ detail.firstname }} {{ detail.lastname }}
+                                                        {% endif %}
+                                                    </h6>
+                                                </a>
+                                                <span class="level hint--top level-one-seller">
+                                                    {{ detail.address }}
+                                                </span>
+                                                {% if detail.skills.exists %}
+                                                <ul style="display: flex;">
+                                                    {% for skill in detail.skills.all %}
+                                                    <li>{{ skill.name }},</li>
+                                                    {% endfor %}
+                                                </ul>
+                                                {% else %}
+                                                <p>No skills assigned yet.</p>
+                                                {% endif %}
+
+                                            </span>
+                                        </div>
+                                        <h3>{{ detail.description }}</h3>
+                                        <div class="content-info">
+                                            <div class="rating-wrapper">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+    </section>
+    </div>
+    </div>
+    <div class="footer-pagination text-center">
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                        <span aria-hidden="true"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>
+                        <!--                    <span class="sr-only"></span>-->
+                    </a>
+                </li>
+                {% endif %}
+                <li class="page-item"> <a> {{ page_obj.number }}</a></li>
+
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page= {{ page_obj.has_next }}" aria-label="Next">
+                        <span aria-hidden="true"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>
+                        <!--                    <span class="sr-only"></span>-->
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+  {% else %}
+  
+<p style="font-size: 18px; color: #333; font-weight: 600; margin-bottom: 20px; padding-left: 30px;">
+    <span style="color: #007bff;">Your search query:</span> <span style="font-style: italic; color: #007bff;">{{ query }}</span> did not match.
+</p>
+
+<p style="font-size: 16px; color: #555; margin-bottom: 25px; padding-left: 30px;">
+    Please try the following:
+</p>
+
+<ul style="list-style-type: disc; padding-left: 50px; color: #333; font-size: 16px; margin-top: 0; margin-bottom: 20px;">
+    <li style="margin-bottom: 10px;">Try using different keywords.</li>
+    <li style="margin-bottom: 10px;">Check for typos in your query.</li>
+    <li>Be more specific in your search.</li>
+</ul>
+  {% endif %}
+
+</body>
+
+</html>
