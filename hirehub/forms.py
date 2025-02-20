@@ -62,6 +62,7 @@ class CustomRegistrationForm(UserCreationForm):
 
 class CustomAuthenticationForm(AuthenticationForm):
     username = forms.EmailField(required=True)
+    password = forms.CharField(required=True)
 
     class Meta:
         model = CustomUser
@@ -90,6 +91,9 @@ class CustomAuthenticationForm(AuthenticationForm):
 
         if password is None:
             raise forms.ValidationError("Password is Required.")
+        
+        if not CustomUser.objects.filter(password=password):
+            raise forms.ValidationError("Password didn't match.")
         
         return password
 
@@ -127,14 +131,7 @@ class SellerProfileForm(forms.ModelForm):
         return skills
         
 
-
-
-
 class BuyerProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ['image','firstname','middlename','lastname','address']
-    
-            
-
-
