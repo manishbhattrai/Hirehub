@@ -92,8 +92,8 @@ class CustomAuthenticationForm(AuthenticationForm):
         if password is None:
             raise forms.ValidationError("Password is Required.")
         
-        if not CustomUser.objects.filter(password=password):
-            raise forms.ValidationError("Password didn't match.")
+        ##if not CustomUser.objects.filter(password=password):
+          ##  raise forms.ValidationError("Password didn't match.")
         
         return password
 

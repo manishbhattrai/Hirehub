@@ -60,11 +60,6 @@ User = get_user_model()
 class UserProfile(models.Model):
 
 
-    phone_number_regex = RegexValidator(
-      regex=r'^\+9779\d{8}$|^9\d{8}$',  
-        message="Phone number must be in the format: +9779XXXXXXXX or 9XXXXXXXX."
-    )
-
     def validate_image(image):
         ext = os.path.splitext(image.name)[1].lower()
 
@@ -78,7 +73,7 @@ class UserProfile(models.Model):
             
 
 
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='userprofile')
     image = models.ImageField(
         null=True,blank=True,
         upload_to='media/', 
@@ -95,11 +90,10 @@ class UserProfile(models.Model):
     description = models.TextField(max_length=200, null=True)
     facebook = models.URLField(null=True,blank=True)
     number = models.CharField(
-        max_length=14,null=False, 
-        validators=[phone_number_regex],
+        max_length=15,null=False, 
         help_text="Enter phone number in the format: +9779XXXXXXXX or 9XXXXXXXX.")
     skills = models.ManyToManyField(Skill)
     has_profile = models.BooleanField(default=False)
 
     def __str__(self):
-        return f"{self.user.username}'s profile" 
+        return f"{self.user.username}'s profile ({self.user.role})" 
