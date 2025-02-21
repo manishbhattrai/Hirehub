@@ -8,9 +8,17 @@ from django.core.paginator import Paginator
 
 # Create your views here.
 
+
+##rendering homepage with 4 list of users who has role of seller.
+
 def home(request):
     page = UserProfile.objects.filter(user__role = 'seller')[:4]
     return render(request,'home.html',{'page':page})
+
+
+
+
+##function for creating a user account
 
 def user_create(request):
     if request.method == 'POST':
@@ -29,6 +37,11 @@ def user_create(request):
     }
     return render(request,'signup.html', context)
 
+
+
+
+
+##function for role based user login.
 
 def user_login(request):
 
@@ -69,11 +82,21 @@ def user_login(request):
 
 
 
+
+
+
+
+
 def users_logout(request):
     logout(request)
     return redirect('home')
 
 
+
+
+
+
+##logic for role based profile setup.
 
 @login_required(login_url='login')
 def profile_setup(request):
@@ -112,6 +135,8 @@ def profile_setup(request):
     return render(request, 'user_profile_form.html', {'form': form})
 
 
+
+
 @login_required(login_url='login')
 def user_profile(request):
     profile = UserProfile.objects.filter(user = request.user)
@@ -120,6 +145,9 @@ def user_profile(request):
         'profile':profile
     }
     return render(request,'user_profile.html',context)
+
+
+
 
 
 
@@ -155,6 +183,10 @@ def profile_update(request,id):
 
 
 
+
+
+
+
 @login_required(login_url='login')
 def user_delete(request,id):
 
@@ -168,18 +200,45 @@ def user_delete(request,id):
 
 
 
+
+
+
 def aboutus(request):
     return render(request,'aboutus.html')
 
-def profile_view(request,id):
-    profile = get_object_or_404(UserProfile, id=id)
 
-    return render(request,'profile_view.html',{'profile':profile})
+
+
+
+
+@login_required(login_url='login')
+def profile_view(request,id):
+
+    users = get_object_or_404(CustomUser, id=id)
+    profile = users.userprofile
+
+    context = {
+        "users":users,
+        "profile":profile
+    }
+
+    return render(request,'profile_view.html',context)
+
+
+
+
+
+## creating reusable function.
 
 
 def get_seller_profiles():
     return UserProfile.objects.filter(user__role = 'seller')
 
+
+
+## this function shows the detail of the users.
+
+@login_required(login_url='login')
 def main_page(request):
     list = get_seller_profiles()
 
@@ -188,13 +247,18 @@ def main_page(request):
     page_obj = paginator.get_page(page_number)
 
     context = {
-        
-        'list':list,
+
         'page_obj':page_obj,
     }
     return render(request,'main_page.html',context)
 
 
+
+
+
+
+
+@login_required(login_url='login')
 def search_list(request):
      
     query = request.GET.get('search', '')

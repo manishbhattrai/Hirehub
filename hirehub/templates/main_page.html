@@ -74,7 +74,7 @@
                 <div class="view_slider recommended">
                    <div class="container">
                          <div class="row"  style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;">
-                             {% for detail in list %}
+                             {% for detail in page_obj %}
                             <div class="view recent-slider recommended-slider">
                                <a>
                                   <img class="img-fluid" loading="lazy" src="{{ detail.image.url }}" />
@@ -83,9 +83,9 @@
                                   <div class="inner-wrapper">
                                      <div class="d-flex align-items-center">
                                         <span class="seller-name">
-                                         {% if user.is_authenticated %}
-                                           <a href="{% url 'profile-view' user.id %}">
-                                             {% endif %}
+                                         
+                                           <a href="{% url 'profile-view' detail.user.id %}">
+                                             
                                               <h6>
                                              {% if detail.middlename %}
                                               {{ detail.firstname }} {{ detail.middlename }} {{ detail.lastname }}
@@ -94,6 +94,7 @@
                                              {% endif %}
                                             </h6>
                                            </a>
+                                 
                                            <span class="level hint--top level-one-seller">
                                               {{ detail.address }}
                                            </span>
@@ -110,8 +111,10 @@
                                         </span>
                                      </div>
                                      <h3>{{ detail.description }}</h3>
+
                                      <div class="content-info">
                                         <div class="rating-wrapper">
+                                          <button class="btn-success btn "> <a class="text-white" href="https://wa.me/{{detail.number}}" target="_blank">Contact me</a></button>
                                         </div>
                                      </div>
                                   </div>

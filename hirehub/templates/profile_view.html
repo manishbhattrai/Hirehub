@@ -44,9 +44,10 @@
                 <!-- Profile Sidebar -->
                 <aside class="col col-xl-3 order-xl-1 col-lg-12 order-lg-1 col-12">
                     <div class="box mb-3 shadow-sm rounded bg-white profile-box text-center">
+                        
                         <div class="py-4 px-3 border-bottom">
-                            {% if users.image %}
-                            <img src="{{users.image.url}}" 
+                            {% if users.userprofile.image %}
+                            <img src="{{users.userprofile.image.url}}" 
                             class="img-fluid mt-2 rounded-circle" 
                             alt="{{users.firstname}}" 
                             style="width: 150px; height: 150px; object-fit: cover;">
@@ -54,10 +55,10 @@
                             <p>No profile image available.</p>
                             {% endif %}
                             <h5 class="font-weight-bold text-dark mb-1 mt-4">
-                                {% if users.middlename %}
-                                {{users.firstname}} {{users.middlename}} {{users.lastname}}
+                                {% if users.userprofile.middlename %}
+                                {{users.userprofile.firstname}} {{users.userprofile.middlename}} {{users.userprofile.lastname}}
                                 {% else %}
-                                {{ users.firstname }} {{users.lastname}}
+                                {{ users.userprofile.firstname }} {{users.userprofile.lastname}}
                                 {% endif %}
                             </h5>
                         </div>
@@ -68,10 +69,10 @@
                             <h6 class="m-0">Skills</h6>
                         </div>
                         <div class="box-body p-3">
-                            {% if users.skills.exists %}
+                            {% if users.userprofile.skills.exists %}
                                 <ul>
-                                    {% for skill in users.skills.all %}
-                                        <li>{{ skill.name }}</li> 
+                                    {% for skill in users.userprofile.skills.all %}
+                                        <li> - {{ skill.name }}</li> 
                                     {% endfor %}
                                 </ul>
                             {% else %}
@@ -90,17 +91,17 @@
                             <div class="row mb-3">
                                 <div class="col-12">
                                     <p><strong>Name:</strong>
-                                        {% if users.middlename %}
-                                        {{ users.firstname }} {{ users.middlename }} {{users.lastname }}
+                                        {% if users.userprofile.middlename %}
+                                        {{ users.userprofile.firstname }} {{ users.userprofile.middlename }} {{users.userprofile.lastname }}
                                         {% else %}
-                                        {{ users.firstname }} {{ users.lastname }}
+                                        {{ users.userprofile.firstname }} {{ users.userprofile.lastname }}
                                         {% endif %}
                                     </p>
-                                    <p><strong>Date of Birth:</strong> {{users.date_of_birth}}</p>
-                                    <p><strong>Gender:</strong> {{users.gender}}</p>
-                                    <p><strong>Address:</strong> {{users.address}}</p>
-                                    <p><strong>Email:</strong> {{users.email}}</p>
-                                    <p><strong>Phone Number:</strong> {{users.number}}</p>
+                                    <p><strong>Date of Birth:</strong> {{users.userprofile.date_of_birth}}</p>
+                                    <p><strong>Gender:</strong> {{users.userprofile.gender}}</p>
+                                    <p><strong>Address:</strong> {{users.userprofile.address}}</p>
+                                    <p><strong>Email:</strong> {{users.userprofile.email}}</p>
+                                    <p><strong>Phone Number:</strong> {{users.userprofile.number}}</p>
                                 </div>
                             </div>
                         </div>
@@ -108,11 +109,11 @@
 
                     <div class="box shadow-sm rounded bg-white mb-3">
                         <div class="box-title border-bottom p-3">
-                            <h6 class="m-0">About Me</h6>
+                            <h6 class="m-0">About </h6>
                         </div>
                         <div class="box-body p-3">
                             <p>
-                                {{ users.description }}
+                                {{ users.userprofile.description }}
                             </p>
                         </div>
                     </div>
@@ -121,7 +122,7 @@
                             <h6 class="m-0">Social Media</h6>
                         </div>
                         <div class="box-body p-3">
-                            <p><a href="{{ users.facebook }}" target="_blank">Facebook</a></p>
+                            <p><a href="{{ users.userprofile.facebook }}" target="_blank">Facebook</a></p>
                         </div>
                     </div>
                 </main>
