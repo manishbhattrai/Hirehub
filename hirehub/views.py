@@ -12,7 +12,7 @@ from django.core.paginator import Paginator
 ##rendering homepage with 4 list of users who has role of seller.
 
 def home(request):
-    page = UserProfile.objects.filter(user__role = 'seller')[:4]
+    page = UserProfile.objects.filter(user__role = 'seller').select_related('user').prefetch_related('skills')[:4]
     return render(request,'home.html',{'page':page})
 
 
@@ -232,7 +232,7 @@ def profile_view(request,id):
 
 
 def get_seller_profiles():
-    return UserProfile.objects.filter(user__role = 'seller')
+    return UserProfile.objects.filter(user__role = 'seller').select_related('user').prefetch_related('skills').order_by('id')
 
 
 
@@ -242,7 +242,7 @@ def get_seller_profiles():
 def main_page(request):
     list = get_seller_profiles()
 
-    paginator = Paginator(list,12)
+    paginator = Paginator(list,8)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 

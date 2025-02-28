@@ -12,12 +12,39 @@
     <link href="/static/vendor/icons/css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css">
     <!-- Custom styles for this template -->
     <link href="/static/css/style.css" rel="stylesheet">
+    <style>
+        .footer-div{
+           background-color: white;
+        }
+        footer {
+           background-color: #ecf0f1; 
+              color: #7f8c8d; 
+              text-align: center;
+              padding: 20px 0;
+              font-size: 14px;
+          }
+  
+          footer a {
+              color: #2980b9; 
+              text-decoration: none;
+              font-weight: bold;
+          }
+  
+          footer a:hover {
+              text-decoration: underline;
+          }
+      </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-white osahan-nav-mid px-0 border-top shadow-sm py-2 sticky-top">
         <div class="container">
            <div class="collapse navbar-collapse" id="navbarResponsive">
               <ul class="navbar-nav">
+                <li style="margin-right: 20px;">
+                    <a href="/">
+                        <img src="/static/images/hirehub2.png" alt="logo" style="width: 50px; height: auto;">
+                    </a>
+                </li>
                  <li class="nav-item dropdown">
                     <a class="nav-link " href="/">
                     Home
@@ -80,6 +107,18 @@
                             {% endif %}
                         </div>
                     </div>
+                    <div class="box mb-3 shadow-sm rounded bg-white profile-box text-center">
+                        <div class="box-title border-bottom p-3">
+                            <h6 class="m-0">Want to contact?</h6>
+                        </div>
+                        <div class="box-body p-3">
+                            <div class="content-info">
+                                <div class="rating-wrapper">
+                                  <button class="btn-success btn "> <a class="text-white" href="https://wa.me/{{detail.number}}" target="_blank">Contact </a></button>
+                                </div>
+                             </div>
+                        </div>
+                    </div>
                 </aside>
 
                 <main class="col col-xl-8 order-xl-2 col-lg-12 order-lg-2 col-md-12 col-sm-12 col-12">
@@ -129,6 +168,11 @@
             </div>
         </div>
     </div>
+    <div class ="footer-div">
+        <footer>
+         <p >&copy; 2024 Hirehub. All rights reserved. | <a href="">Privacy Policy</a> | <a href="">Terms of Service</a></p>
+        </footer>
+        </div >
     <script src="/static/vendor/jquery/jquery.min.js"></script>
     <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
  </body>

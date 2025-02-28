@@ -13,6 +13,28 @@
     <link href="/static/vendor/icons/css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css">
     <!-- Custom styles for this template -->
     <link href="/static/css/style.css" rel="stylesheet">
+    <style>
+        .footer-div{
+           background-color: white;
+        }
+        footer {
+           background-color: #ecf0f1; 
+              color: #7f8c8d; 
+              text-align: center;
+              padding: 20px 0;
+              font-size: 14px;
+          }
+  
+          footer a {
+              color: #2980b9; 
+              text-decoration: none;
+              font-weight: bold;
+          }
+  
+          footer a:hover {
+              text-decoration: underline;
+          }
+      </style>
 </head>
 
 <body>
@@ -21,7 +43,14 @@
         <div class="container">
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav">
+                    <li style="margin-right: 20px;">
+                        <a href="/">
+                            <img src="/static/images/hirehub2.png" alt="logo" style="width: 50px; height: auto;">
+                        </a>
+                    </li>
+
                     <li class="nav-item dropdown">
+
                         <a class="nav-link " href="/">
                             Home
                         </a>
@@ -176,6 +205,12 @@
     <li>Be more specific in your search.</li>
 </ul>
   {% endif %}
+
+  <div class ="footer-div">
+    <footer>
+     <p >&copy; 2024 Hirehub. All rights reserved. | <a href="">Privacy Policy</a> | <a href="">Terms of Service</a></p>
+    </footer>
+    </div >
 
 </body>
 

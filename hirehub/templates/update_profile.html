@@ -299,7 +299,7 @@ input[type="file"] {
                             <div class="js-form-message">
                                 <label for="id_phone" class="form-label">Phone number</label>
                                 <div class="form-group">
-                                    <input class="form-control" type="tel" value="{{ form.number.value }}" name="number" id="id_phone" placeholder="Enter your phone number" required>
+                                    <input class="form-control" type="tel" value="{{ form.number.value }}" name="number" id="id_phone" placeholder="Enter your phone number" >
                                     {% if form.number.errors %}
                                         <div class="text-danger">
                                             {% for error in form.number.errors %}

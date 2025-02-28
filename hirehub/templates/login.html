@@ -19,12 +19,39 @@
       <link href="/static/vendor/select2/css/select2.min.css" rel="stylesheet">
       <!-- Custom styles for this template -->
       <link href="/static/css/style.css" rel="stylesheet">
+      <style>
+         .footer-div{
+            background-color: white;
+         }
+         footer {
+            background-color: #ecf0f1; 
+               color: #7f8c8d; 
+               text-align: center;
+               padding: 20px 0;
+               font-size: 14px;
+           }
+   
+           footer a {
+               color: #2980b9; 
+               text-decoration: none;
+               font-weight: bold;
+           }
+   
+           footer a:hover {
+               text-decoration: underline;
+           }
+       </style>
    </head>
    <body>
       <nav class="navbar navbar-expand-lg navbar-light bg-white osahan-nav-mid px-0 border-top shadow-sm py-2 sticky-top">
          <div class="container">
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav">
+                  <li style="margin-right: 20px;">
+                     <a href="/">
+                        <img src="/static/images/hirehub2.png" alt="logo" style="width: 50px; height: auto;">
+                     </a>
+                 </li>
                   <li class="nav-item">
                      <a class="nav-link" href="/">Home</a>
                  </li>
@@ -49,7 +76,7 @@
                <div class="col-lg-4 mx-auto">
                   <div class="osahan-login py-4">
                      <div class="text-center mb-4">
-                        <a href="index.html"><img src="images/fav.svg" alt=""></a>
+                        <a href="/"><img src="/static/images/hirehub2.png" alt="logo" style="height: 200px; width: 200px;"></a>
                         <h5 class="font-weight-bold mt-3">Welcome Back</h5>
                         <p class="text-muted">Don't miss your next opportunity. Log in to stay updated on your professional world.</p>
                      </div>
@@ -85,7 +112,7 @@
                         </div>
                         <button class="btn btn-success btn-block text-uppercase" type="submit"> Log in </button>
                         <div class="py-3 d-flex align-item-center">
-                           <a href="">Forgot password?</a>
+                           
                            <span class="ml-auto"> New to Hirehub? <a href="{% url 'signup' %}">Join now</a></span>
                         </div>
                      </form>
@@ -93,6 +120,11 @@
                </div>
             </div>
          </div>
+         <div class ="footer-div">
+            <footer>
+             <p >&copy; 2024 Hirehub. All rights reserved. | <a href="">Privacy Policy</a> | <a href="">Terms of Service</a></p>
+            </footer>
+            </div >
       </div>
       <!-- End Login -->
       <!-- Bootstrap core JavaScript -->

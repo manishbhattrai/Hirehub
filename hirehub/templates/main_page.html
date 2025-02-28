@@ -12,6 +12,28 @@
     <link href="/static/vendor/icons/css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css">
     <!-- Custom styles for this template -->
     <link href="/static/css/style.css" rel="stylesheet">
+    <style>
+      .footer-div{
+         background-color: white;
+      }
+      footer {
+         background-color: #ecf0f1; 
+            color: #7f8c8d; 
+            text-align: center;
+            padding: 20px 0;
+            font-size: 14px;
+        }
+
+        footer a {
+            color: #2980b9; 
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
     
@@ -19,6 +41,11 @@
         <div class="container">
            <div class="collapse navbar-collapse" id="navbarResponsive">
               <ul class="navbar-nav">
+               <li style="margin-right: 20px;">
+                  <a href="/">
+                      <img src="/static/images/hirehub2.png" alt="logo" style="width: 50px; height: auto;">
+                  </a>
+              </li>
                  <li class="nav-item dropdown">
                     <a class="nav-link " href="/">
                     Home
@@ -110,7 +137,7 @@
                                            
                                         </span>
                                      </div>
-                                     <h3>{{ detail.description }}</h3>
+                                     <h3>{{ detail.description|truncatewords:4 }}</h3>
 
                                      <div class="content-info">
                                         <div class="rating-wrapper">
@@ -130,28 +157,38 @@
         </div>
     </div>
     <div class="footer-pagination text-center">
-        <nav aria-label="Page navigation example">
-           <ul class="pagination">
-            {% if page_obj.has_previous %}
-              <li class="page-item">
-                 <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
-                    <span aria-hidden="true"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>
-                    <!--                    <span class="sr-only"></span>-->
-                 </a>
-              </li>
+      <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-center">
+              {% if page_obj.has_previous %}
+                  <li class="page-item">
+                      <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                          <span aria-hidden="true"><i class="fa fa-chevron-left" aria-hidden="true"></i></span>
+                      </a>
+                  </li>
               {% endif %}
-              <li class="page-item"> <a> {{ page_obj.number }}</a></li>
-              
+  
+              <!-- Current page number displayed (does not need a link) -->
+              <li class="page-item active">
+                  <a class="page-link" href="#">{{ page_obj.number }}</a>
+              </li>
+  
               {% if page_obj.has_next %}
-              <li class="page-item">
-                 <a class="page-link" href="?page= {{ page_obj.has_next }}" aria-label="Next">
-                    <span aria-hidden="true"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>
-                    <!--                    <span class="sr-only"></span>-->
-                 </a>
-              </li>
+                  <li class="page-item">
+                      <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                          <span aria-hidden="true"><i class="fa fa-chevron-right" aria-hidden="true"></i></span>
+                      </a>
+                  </li>
               {% endif %}
-           </ul>
-        </nav>
-     </div>
+          </ul>
+      </nav>
+  </div>
+  
+  
+     <div class ="footer-div">
+      <footer>
+       <p >&copy; 2024 Hirehub. All rights reserved. | <a href="">Privacy Policy</a> | <a href="">Terms of Service</a></p>
+      </footer>
+      </div >
+     <script src="/static/js/all.min.js" defer></script>
 </body>
 </html>
